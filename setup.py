@@ -45,6 +45,9 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
+        'zope.component',
+        'zope.interface',
+        'zope.security',
     ],
     extras_require={
         'test': TESTS_REQUIRE,
