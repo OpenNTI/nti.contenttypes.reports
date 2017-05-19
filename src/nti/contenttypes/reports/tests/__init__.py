@@ -7,12 +7,12 @@ __docformat__ = "restructuredtext en"
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
-from nti.testing.layers import ZopeComponentLayer
-from nti.testing.layers import ConfiguringLayerMixin
-
 from zope import interface
 
 import zope.testing.cleanup
+
+from nti.testing.layers import ZopeComponentLayer
+from nti.testing.layers import ConfiguringLayerMixin
 
 
 class SharedConfiguringTestLayer(ZopeComponentLayer,
@@ -47,7 +47,7 @@ class ContentTypesReportsLayerTest(unittest.TestCase):
     layer = SharedConfiguringTestLayer
     get_configuration_package = AbstractTestBase.get_configuration_package.__func__
 
-class _ITestInterface(interface.Interface):
+class ITestInterface(interface.Interface):
     """
     Test interface to be used in place of other interfaces in unit tests
     """

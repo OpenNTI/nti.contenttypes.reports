@@ -12,10 +12,14 @@
 	<!-- Externalization -->
 	<include package="nti.externalization" file="meta.zcml" />
 	<include package="nti.externalization" />
+	
+	<ext:registerAutoPackageIO
+		root_interfaces=".interfaces.IReport"
+		modules=".reports" />
 		
 	<!-- Adapters -->
 	<adapter factory=".externalization._ReportExternalizer"
              provides="nti.externalization.interfaces.IExternalObject"
-             for=".interfaces.IReport" />
+             for=".interfaces.IReportContext" />
 
 </configure>
