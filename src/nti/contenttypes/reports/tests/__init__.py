@@ -10,6 +10,8 @@ __docformat__ = "restructuredtext en"
 from nti.testing.layers import ZopeComponentLayer
 from nti.testing.layers import ConfiguringLayerMixin
 
+from zope import interface
+
 import zope.testing.cleanup
 
 
@@ -38,7 +40,14 @@ class SharedConfiguringTestLayer(ZopeComponentLayer,
 
 import unittest
 
+from nti.testing.base import AbstractTestBase
 
 class ContentTypesReportsLayerTest(unittest.TestCase):
 
     layer = SharedConfiguringTestLayer
+    get_configuration_package = AbstractTestBase.get_configuration_package.__func__
+
+class _ITestInterface(interface.Interface):
+    """
+    Test interface to be used in place of other interfaces in unit tests
+    """

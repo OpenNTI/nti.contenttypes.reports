@@ -19,14 +19,25 @@ CLASS=StandardExternalFields.CLASS
 @component.adapter(IReport)
 @interface.implementer(IExternalObject)
 class _ReportExternalizer(object):
+    """
+    Defines the externalization of an IReport-based object.
+    """
     
+    #Tell Python to hold space for an object
     __slots__=('obj', )
     
     def __init__(self, IReportObj):
+        #Set the object to be externalized
         self.obj=IReportObj
     
     def toExternalObject(self,  *args, **kwargs):
+        """
+        Performs the externalization of an IReport object
+        """
+        #Create space to hold the items that are front facing
         result=LocatedExternalDict()
+        
+        #From the object, get all needed attributes and save them into the dict
         result[CLASS]=self.obj.__class__.__name__
         result["name"]=self.obj.name
         result["description"]=self.obj.description
