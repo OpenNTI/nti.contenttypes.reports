@@ -15,7 +15,7 @@ from nti.externalization.externalization import to_external_object
 from nti.externalization.externalization import StandardExternalFields
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
-from nti.contenttypes.reports.tests import _ITestInterface
+# from nti.contenttypes.reports.tests import _ITestInterface
 
 from zope import interface
 
@@ -26,7 +26,7 @@ class TestExternal(ContentTypesReportsLayerTest):
     def test_basic_report_ext(self):
         report=BasicReport(u"TestBasic", u"TestBasicDescription", _ITestInterface, u"TestPermission", [u"csv", u"pdf"])
         ext_obj=to_external_object(report)
-        assert_that(ext_obj, has_entries(CLASS, BasicReport.__name__, 
+        assert_that(ext_obj, has_entries(CLASS, 'BasicReport', 
                                          u"name", u"TestBasic", 
                                          u"description", u"TestBasicDescription", 
                                          u"interface_context", _ITestInterface.__name__,
