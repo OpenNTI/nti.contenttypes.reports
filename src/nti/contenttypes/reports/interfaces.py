@@ -11,6 +11,8 @@ logger = __import__('logging').getLogger(__name__)
 
 from zope import interface
 
+from nti.contenttypes.reports.schema import ValidInterface
+
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
 
@@ -34,9 +36,10 @@ class IReport(interface.Interface):
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
-    interface_context = interface.Attribute(u"The context within which the report operates")
+    interface_context = ValidInterface(IReportContext,
+                                       title=u"The context within which the report operates")
     interface_context.setTaggedValue('_ext_excluded_out', True)
-    
+
     permission = TextLine(title=u"The permission level required to access this report",
                           required=True)
 
