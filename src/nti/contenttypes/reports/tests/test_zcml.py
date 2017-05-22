@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, unicode_literals, absolute_import, division
+from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
+
+# disable: accessing protected members, too many methods
+# pylint: disable=W0212,R0904
 
 from hamcrest import assert_that
 from hamcrest import has_property
@@ -14,17 +17,13 @@ from zope import component
 from zope.configuration import config
 from zope.configuration import xmlconfig
 
-from nti.contenttypes.reports.tests import ITestInterface
-from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
-
-from nti.contenttypes.reports.zcml import registerReport
-
 from nti.contenttypes.reports.interfaces import IReport
 
-from nti.contenttypes.reports.reports import ReportContext
+from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
+
 
 #Example ZCML file that would call the registerReport directive
-HEAD_ZCML_STRING = """
+HEAD_ZCML_STRING = u"""
 <configure  xmlns="http://namespaces.zope.org/zope"
             xmlns:i18n="http://namespaces.zope.org/i18n"
             xmlns:zcml="http://namespaces.zope.org/zcml"
@@ -38,10 +37,9 @@ HEAD_ZCML_STRING = """
     <configure>
         <rep:registerReport name="TestReport"
                             description="TestDescription"
-                            interface_context=".tests.ITestInterface"
+                            interface_context=".tests.ITestReportContext"
                             permission="TestPermission"
-                            supported_types="csv 
-                                             pdf" />
+                            supported_types="csv pdf" />
     </configure>
 </configure>
 
@@ -52,12 +50,6 @@ class TestZcml(ContentTypesReportsLayerTest):
     """
     Reponsible for testing the ZCML processing of registerReport-involved directives
     """
-
-    def setUp(self):
-        """
-        Set up test cases
-        """
-        self.layer.setUp()
 
     def test_register_report(self):
         """
