@@ -17,8 +17,11 @@ from zope.interface.interface import InterfaceClass
 
 from zope.schema import Field
 
+from zope.schema._field import _isdotted
+
 from zope.schema.interfaces import WrongType
 from zope.schema.interfaces import IFromUnicode
+from zope.schema.interfaces import InvalidDottedName
 from zope.schema.interfaces import SchemaNotProvided
 
 from nti.schema.field import Object
@@ -44,6 +47,9 @@ class ValidInterface(Object):
             raise SchemaNotProvided
 
     def fromUnicode(self, value):
-        value = dottedname.resolve(value.strip())
+        value = value.strip()
+        if not _isdotted(value):
+            raise InvalidDottedName(value)
+        value = dottedname.resolve(value)
         self._validate(value)
         return value
