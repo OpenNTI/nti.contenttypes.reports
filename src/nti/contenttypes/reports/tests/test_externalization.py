@@ -14,6 +14,7 @@ from nti.externalization.externalization import to_external_object
 from nti.externalization.externalization import StandardExternalFields
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
+
 from nti.contenttypes.reports.tests import ITestInterface
 
 CLASS = StandardExternalFields.CLASS
