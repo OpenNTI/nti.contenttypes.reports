@@ -17,9 +17,9 @@
 		root_interfaces=".interfaces.IReport"
 		modules=".reports" />
 		
-	<!-- Adapters -->
-	<adapter factory=".externalization._ReportExternalizer"
-             provides="nti.externalization.interfaces.IExternalObject"
-             for=".interfaces.IReportContext" />
+	<!-- Decorators -->
+	<subscriber factory=".decorators._ReportDecorator"
+				for=".interfaces.IReport"
+				provides="nti.externalization.interfaces.IExternalObjectDecorator"/>
 
 </configure>

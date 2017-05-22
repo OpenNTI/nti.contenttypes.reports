@@ -7,7 +7,7 @@ __docformat__ = "restructuredtext en"
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
-# from hamcrest import has_entry
+from hamcrest import has_entry
 from hamcrest import assert_that
 from hamcrest import has_entries
 from hamcrest import contains_inanyorder
@@ -45,7 +45,7 @@ class TestExternal(ContentTypesReportsLayerTest):
                     has_entries(CLASS, "BasicReport",
                                 "name", "TestBasic",
                                 "description", "TestBasicDescription",
-#                                "interface_context", has_entry(CLASS,
-#                                                               ITestReportContext.__name__),
+                                "interface_context", has_entry(CLASS,
+                                                               ITestReportContext.__name__),
                                 "permission", "TestPermission",
                                 "supported_types", contains_inanyorder("csv", "pdf")))
