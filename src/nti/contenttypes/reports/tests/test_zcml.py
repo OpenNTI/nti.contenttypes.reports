@@ -39,9 +39,9 @@ HEAD_ZCML_STRING = """
     <configure>
         <rep:registerReport name="TestReport"
                             description="TestDescription"
-                            interface_context="nti.contenttypes.reports.tests.ITestInterface"
+                            interface_context=".tests.ITestInterface"
                             permission="TestPermission"
-                            supported_types="csv, 
+                            supported_types="csv 
                                              pdf" />
     </configure>
 </configure>

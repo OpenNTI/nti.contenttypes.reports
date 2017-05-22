@@ -42,4 +42,3 @@ class BasicReport(object):
         Evaluate if the user has the correct permissions for this context
         """
         pass
-
