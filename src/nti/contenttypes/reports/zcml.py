@@ -28,9 +28,8 @@ from nti.schema.field import TextLine
 
 class IRegisterReport(interface.Interface):
     """
-    Interface representing a registration of a new report.
-    Notice the differences form IReport: All items are text lines.
-    More complex pieces will need to be parsed out to be used for registration.
+    Interface representing a registration of a new report, defining behavior of
+    the various fields
     """
     name = TextLine(title=u"The name of the report",
                     required=True)
