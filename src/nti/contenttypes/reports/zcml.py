@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function, absolute_import, division
-from zope.interface.interface import InterfaceClass
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -15,6 +14,8 @@ from zope.component.zcml import utility
 
 from zope.configuration.fields import Tokens
 from zope.configuration.fields import GlobalObject
+
+from zope.interface.interface import InterfaceClass
 
 from nti.base._compat import text_
 

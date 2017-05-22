@@ -22,7 +22,7 @@ from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 
-#Example ZCML file that would call the registerReport directive
+# Example ZCML file that would call the registerReport directive
 HEAD_ZCML_STRING = u"""
 <configure  xmlns="http://namespaces.zope.org/zope"
             xmlns:i18n="http://namespaces.zope.org/i18n"
