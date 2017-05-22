@@ -37,13 +37,13 @@ class ValidInterface(Object):
         Field.__init__(self, **kw)
 
     def _validate(self, value):
-        if self._type is not None and not isinstance(value, self._type):
+        if not isinstance(value, self._type):
             raise WrongType(value, self._type, self.__name__)
 
         if self.schema not in value.__bases__:
             raise SchemaNotProvided
 
     def fromUnicode(self, value):
-        value = dottedname(value.strip())
+        value = dottedname.resolve(value.strip())
         self._validate(value)
         return value
