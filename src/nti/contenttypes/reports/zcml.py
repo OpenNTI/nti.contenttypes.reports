@@ -2,17 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function, absolute_import, division
-from distutils.tests import support
 __docformat__ = "restructuredtext en"
 
 import functools
-import importlib
-import os
 
 from zope import component
 from zope import interface
-
-from zope.dottedname.resolve import resolve
 
 from zope.component.zcml import utility
 

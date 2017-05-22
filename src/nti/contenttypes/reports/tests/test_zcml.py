@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function, unicode_literals, absolute_import, division
-from _codecs import register
 __docformat__ = "restructuredtext en"
 
 from hamcrest import assert_that
@@ -65,18 +64,18 @@ class TestZcml(ContentTypesReportsLayerTest):
         Responsible for testing that registering a report results in the proper utilities
         """
 
-        #Using the above ZCML string, set up the temporary configuration and run the string
-        #through ZCML processor
+        # Using the above ZCML string, set up the temporary configuration and run the string
+        # through ZCML processor
         context = config.ConfigurationMachine()
         context.package = self.get_configuration_package()
         xmlconfig.registerCommonDirectives(context)
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
-        #Get all utilities that are registered to an IReport object
+        # Get all utilities that are registered to an IReport object
         uti = component.getUtility(IReport)
         
-        #Be sure that the utilitiy we ended up with matches the test registration in the
-        #sample ZCML
+        # Be sure that the utilitiy we ended up with matches the test registration in the
+        # sample ZCML
         assert_that(uti, not_none())
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("description", "TestDescription"))

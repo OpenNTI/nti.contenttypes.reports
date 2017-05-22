@@ -6,10 +6,7 @@ __docformat__ = "restructuredtext en"
 
 from hamcrest import assert_that
 from hamcrest import has_entries
-from hamcrest import has_entry
 from hamcrest import contains_inanyorder
-
-from zope import interface
 
 from nti.contenttypes.reports.reports import BasicReport
 
