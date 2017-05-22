@@ -42,12 +42,16 @@ import unittest
 
 from nti.testing.base import AbstractTestBase
 
+
 class ContentTypesReportsLayerTest(unittest.TestCase):
 
     layer = SharedConfiguringTestLayer
     get_configuration_package = AbstractTestBase.get_configuration_package.__func__
 
-class ITestInterface(interface.Interface):
+
+from nti.contenttypes.reports.interfaces import IReportContext
+
+class ITestReportContext(IReportContext):
     """
     Test interface to be used in place of other interfaces in unit tests
     """
