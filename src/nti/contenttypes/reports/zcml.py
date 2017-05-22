@@ -58,7 +58,7 @@ def registerReport(_context, name, description, interface_context,
     Take the items from ZCML, turn it into a report object and register it as a 
     new utility in the current context
     """
-    supported_types = tuple(text_(s) for s in supported_types or ())
+    supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a utility
     factory = functools.partial(BasicReport,
