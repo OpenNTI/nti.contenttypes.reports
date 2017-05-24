@@ -19,6 +19,8 @@ from zope.configuration import xmlconfig
 
 from nti.contenttypes.reports.interfaces import IReport
 
+from nti.contenttypes.reports.tests import ITestReportContext
+
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 
@@ -64,11 +66,12 @@ class TestZcml(ContentTypesReportsLayerTest):
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
         # Get all utilities that are registered to an IReport object
-        uti = component.getUtility(IReport)
+        uti = component.subscribers(ITestReportContext, IReport)
         
         # Be sure that the utilitiy we ended up with matches the test registration in the
         # sample ZCML
-        assert_that(uti, not_none())
+        assert_that(len(uti), 1)
+        uti = uti[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))

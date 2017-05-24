@@ -10,7 +10,7 @@ import functools
 
 from zope import interface
 
-from zope.component.zcml import utility
+from zope.component.zcml import subscriber
 
 from zope.configuration.fields import Tokens
 from zope.configuration.fields import GlobalObject
@@ -53,7 +53,7 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, description, interface_context,
-                   permission, supported_types, registration_name=""):
+                   permission, supported_types):
     """
     Take the items from ZCML, turn it into a report object and register it as a 
     new utility in the current context
@@ -72,5 +72,5 @@ def registerReport(_context, name, description, interface_context,
     assert IReportContext in interface_context.__bases__, "Invalid report context interface"
 
     # Register the object has a utility
-    utility(_context, provides=IReport,
-            factory=factory, name=registration_name)
+    subscriber(_context, provides=IReport,
+            factory=factory, for_=interface_context)
