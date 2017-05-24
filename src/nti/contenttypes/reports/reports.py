@@ -11,6 +11,8 @@ from zope import interface
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 
+from nti.contenttypes.reports.interfaces import get_report_predicate
+
 from nti.schema.fieldproperty import createDirectFieldProperties
 
 
@@ -38,7 +40,5 @@ class BasicReport(object):
         self.supported_types = tuple(s for s in supported_types)
 
     def predicate(self, context, user):
-        """
-        Evaluate if the user has the correct permissions for this context
-        """
-        pass
+        uber_filter = get_report_predicate(self)
+        return uber_filter(context, user)
