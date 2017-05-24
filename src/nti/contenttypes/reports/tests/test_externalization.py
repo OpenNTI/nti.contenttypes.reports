@@ -12,7 +12,7 @@ from hamcrest import assert_that
 from hamcrest import has_entries
 from hamcrest import contains_inanyorder
 
-from nti.contenttypes.reports.reports import BasicReport
+from nti.contenttypes.reports.reports import BaseReport
 
 from nti.externalization.externalization import to_external_object
 from nti.externalization.externalization import StandardExternalFields
@@ -35,14 +35,14 @@ class TestExternal(ContentTypesReportsLayerTest):
         Test the externalization of BasicReport
         """
         # Create example object and make an external object
-        report = BasicReport(u"TestBasic", u"TestBasicDescription",
-                             ITestReportContext, u"TestPermission", 
-                             [u"csv", u"pdf"])
+        report = BaseReport(u"TestBasic", u"TestBasicDescription",
+                            ITestReportContext, u"TestPermission", 
+                            [u"csv", u"pdf"])
         ext_obj = to_external_object(report)
 
         # Be sure that the external object has the right specs
         assert_that(ext_obj, 
-                    has_entries(CLASS, "BasicReport",
+                    has_entries(CLASS, "BaseReport",
                                 "name", "TestBasic",
                                 "description", "TestBasicDescription",
                                 "interface_context", has_entry(CLASS,

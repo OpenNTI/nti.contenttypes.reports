@@ -21,7 +21,7 @@ from nti.base._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport, IReportContext
 
-from nti.contenttypes.reports.reports import BasicReport
+from nti.contenttypes.reports.reports import BaseReport
 
 from nti.schema.field import TextLine
 
@@ -61,7 +61,7 @@ def registerReport(_context, name, description, interface_context,
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a utility
-    factory = functools.partial(BasicReport,
+    factory = functools.partial(BaseReport,
                                 name=text_(name),
                                 description=text_(description),
                                 interface_context=interface_context,

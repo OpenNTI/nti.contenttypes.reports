@@ -25,7 +25,7 @@ class ReportContext(object):
 
 
 @interface.implementer(IReport)
-class BasicReport(object):
+class BaseReport(object):
     """
     The concrete representation of a Report object.
     """

@@ -7,9 +7,9 @@ __docformat__ = "restructuredtext en"
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
+from hamcrest import not_none
 from hamcrest import assert_that
 from hamcrest import has_property
-from hamcrest import not_none
 from hamcrest import contains_inanyorder
 
 from zope import component
