@@ -35,9 +35,9 @@ class TestExternal(ContentTypesReportsLayerTest):
         Test the externalization of BasicReport
         """
         # Create example object and make an external object
-        report = BaseReport(u"TestBasic", u"TestBasicDescription",
-                            ITestReportContext, u"TestPermission", 
-                            [u"csv", u"pdf"])
+        report = BaseReport(name=u"TestBasic", description=u"TestBasicDescription",
+                            interface_context=ITestReportContext, permission=u"TestPermission", 
+                            supported_types=[u"csv", u"pdf"])
         ext_obj = to_external_object(report)
 
         # Be sure that the external object has the right specs

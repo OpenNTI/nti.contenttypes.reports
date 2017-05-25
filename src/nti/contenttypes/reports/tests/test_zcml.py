@@ -13,11 +13,14 @@ from hamcrest import has_property
 from hamcrest import contains_inanyorder
 
 from zope import component
+from zope import interface
 
 from zope.configuration import config
 from zope.configuration import xmlconfig
 
 from nti.contenttypes.reports.interfaces import IReport
+
+from nti.contenttypes.reports.tests import ITestReportContext
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
@@ -45,6 +48,10 @@ HEAD_ZCML_STRING = u"""
 
 """
 
+@interface.implementer(ITestReportContext)
+class TestReportContext():
+    def __init__(self):
+        pass
 
 class TestZcml(ContentTypesReportsLayerTest):
     """
@@ -63,12 +70,15 @@ class TestZcml(ContentTypesReportsLayerTest):
         xmlconfig.registerCommonDirectives(context)
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
-        # Get all utilities that are registered to an IReport object
-        uti = component.getUtility(IReport)
+        test_context = TestReportContext()
+        # from pdb import set_trace; set_trace()
+        # Get all subscribers that are registered to an IReport object
+        uti = component.subscribers((test_context,), IReport)
         
-        # Be sure that the utilitiy we ended up with matches the test registration in the
+        # Be sure that the subscriber we ended up with matches the test registration in the
         # sample ZCML
-        assert_that(uti, not_none())
+        assert_that(len(uti), 1)
+        uti = uti[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))

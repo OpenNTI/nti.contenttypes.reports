@@ -30,14 +30,13 @@ class BaseReport(object):
     The concrete representation of a Report object.
     """
     createDirectFieldProperties(IReport)
-
-    def __init__(self, name, description, interface_context, 
-                 permission, supported_types):
-        self.name = name
-        self.permission = permission
-        self.description = description
-        self.interface_context = interface_context
-        self.supported_types = tuple(s for s in supported_types)
+    
+    def __init__(self,*args, **kwargs):
+        self.name = kwargs.get('name')
+        self.permission = kwargs.get('permission')
+        self.description = kwargs.get('description')
+        self.interface_context = kwargs.get('interface_context')
+        self.supported_types = tuple(s for s in kwargs.get('supported_types'))
 
     def predicate(self, context, user):
         uber_filter = get_report_predicate(self)

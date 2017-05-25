@@ -24,7 +24,6 @@ class IReportContext(interface.Interface):
     specially
     """
 
-
 class IReport(interface.Interface):
     """
     The base interface for a report object. This contains all the basic metadata
