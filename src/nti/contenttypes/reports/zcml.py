@@ -10,6 +10,8 @@ import functools
 
 from zope import interface
 
+from zope import component
+
 from zope.component.zcml import subscriber
 
 from zope.configuration.fields import Tokens
@@ -59,8 +61,8 @@ def registerReport(_context, name, description, interface_context,
     new utility in the current context
     """
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
-
-    # Create the Report object to be used as a utility
+    
+    # Create the Report object to be used as a subscriber
     factory = functools.partial(BaseReport,
                                 name=text_(name),
                                 description=text_(description),
@@ -71,6 +73,6 @@ def registerReport(_context, name, description, interface_context,
     assert type(interface_context) is InterfaceClass, "Invalid interface"
     assert IReportContext in interface_context.__bases__, "Invalid report context interface"
 
-    # Register the object has a utility
+    # Register the object as a subscriber
     subscriber(_context, provides=IReport,
-            factory=factory, for_=interface_context)
+            factory=factory, for_=(interface_context,))
