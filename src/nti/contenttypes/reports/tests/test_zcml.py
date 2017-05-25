@@ -8,6 +8,7 @@ __docformat__ = "restructuredtext en"
 # pylint: disable=W0212,R0904
 
 from hamcrest import not_none
+from hamcrest import has_length
 from hamcrest import assert_that
 from hamcrest import has_property
 from hamcrest import contains_inanyorder
@@ -45,13 +46,13 @@ HEAD_ZCML_STRING = u"""
                             supported_types="csv pdf" />
     </configure>
 </configure>
-
 """
+
 
 @interface.implementer(ITestReportContext)
 class TestReportContext():
-    def __init__(self):
-        pass
+    pass
+
 
 class TestZcml(ContentTypesReportsLayerTest):
     """
@@ -71,14 +72,14 @@ class TestZcml(ContentTypesReportsLayerTest):
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
         test_context = TestReportContext()
-        # from pdb import set_trace; set_trace()
+
         # Get all subscribers that are registered to an IReport object
-        uti = component.subscribers((test_context,), IReport)
-        
+        reports = component.subscribers((test_context,), IReport)
+
         # Be sure that the subscriber we ended up with matches the test registration in the
         # sample ZCML
-        assert_that(len(uti), 1)
-        uti = uti[0]
+        assert_that(reports, has_length(1))
+        uti = reports[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))
