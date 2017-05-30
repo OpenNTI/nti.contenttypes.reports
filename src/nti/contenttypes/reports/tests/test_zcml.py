@@ -86,7 +86,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(uti, has_property("supported_types",
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
-        
+
         ut_reports = component.getAllUtilitiesRegisteredFor(IReport)
         assert_that(reports, has_length(1))
         uti = reports[0]

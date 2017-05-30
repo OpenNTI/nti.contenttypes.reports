@@ -56,13 +56,13 @@ class IRegisterReport(interface.Interface):
 def registerReport(_context, name, description, interface_context,
                    permission, supported_types, registration_name=None):
     """
-    Take the items from ZCML, turn it into a report object and register it as a 
+    Take the items from ZCML, turn it into a report object and register it as a
     new utility in the current context
     """
-    
-    if registration_name == None:
+
+    if registration_name is None:
         registration_name = name
-    
+
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a subscriber
@@ -79,7 +79,7 @@ def registerReport(_context, name, description, interface_context,
     # Register the object as a subscriber
     subscriber(_context, provides=IReport,
                factory=factory, for_=(interface_context,))
-    
+
     #Also register as utility to getch all
     utility(_context, provides=IReport,
             factory=factory, name=registration_name)
