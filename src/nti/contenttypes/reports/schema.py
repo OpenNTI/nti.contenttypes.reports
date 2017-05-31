@@ -31,7 +31,7 @@ from nti.schema.field import Object
 class ValidInterface(Object):
 
     _type = InterfaceClass
-    
+
     def __init__(self, schema, **kw):
         if type(schema) is not InterfaceClass:
             raise WrongType(schema, self._type, self.__name__)

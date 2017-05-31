@@ -20,6 +20,7 @@ from nti.schema.schema import SchemaConfigured
 
 from nti.dataserver.authorization_acl import has_permission
 
+
 @interface.implementer(IReportContext)
 class ReportContext(SchemaConfigured):
     """
@@ -34,7 +35,7 @@ class BaseReport(SchemaConfigured):
     The concrete representation of a Report object.
     """
     createDirectFieldProperties(IReport)
-    
+
     def __init__(self, *args, **kwargs):
         SchemaConfigured.__init__(self, **kwargs)
 
