@@ -52,21 +52,3 @@ class IReport(interface.Interface):
         """
         Evaluate if the user has the correct permissions for this context
         """
-
-
-class IReportPredicate(interface.Interface):
-    """
-    Subscriber for report objects has the correct permissions for this context
-    """
-
-    def evaluate(context, user):
-        """
-        Evaluate if the user has the correct permissions for this context
-        """
-
-
-def get_report_predicate(report):
-    predicates = list(component.subscribers((report,), IReportPredicate))
-    def uber_filter(context, user):
-        return all(p.evaluate(context, user) for p in predicates)
-    return uber_filter

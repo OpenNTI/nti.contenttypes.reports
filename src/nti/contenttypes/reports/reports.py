@@ -10,6 +10,7 @@ from zope import interface
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
+from nti.contenttypes.reports.interfaces import IReportPredicate
 
 from nti.contenttypes.reports.interfaces import get_report_predicate
 
@@ -17,6 +18,7 @@ from nti.schema.fieldproperty import createDirectFieldProperties
 
 from nti.schema.schema import SchemaConfigured
 
+from nti.dataserver.authorization_acl import has_permission
 
 @interface.implementer(IReportContext)
 class ReportContext(SchemaConfigured):
@@ -37,5 +39,4 @@ class BaseReport(SchemaConfigured):
         SchemaConfigured.__init__(self, **kwargs)
 
     def predicate(self, context, user):
-        uber_filter = get_report_predicate(self)
-        return uber_filter(context, user)
+        return has_permission(self.permission, context, user)
