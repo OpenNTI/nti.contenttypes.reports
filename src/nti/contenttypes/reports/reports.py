@@ -10,9 +10,6 @@ from zope import interface
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
-from nti.contenttypes.reports.interfaces import IReportPredicate
-
-from nti.contenttypes.reports.interfaces import get_report_predicate
 
 from nti.schema.fieldproperty import createDirectFieldProperties
 
