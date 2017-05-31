@@ -32,6 +32,7 @@ class IRegisterReport(interface.Interface):
     Interface representing a registration of a new report, defining behavior of
     the various fields
     """
+
     name = TextLine(title=u"The name of the report",
                     required=True)
 
@@ -80,6 +81,6 @@ def registerReport(_context, name, description, interface_context,
     subscriber(_context, provides=IReport,
                factory=factory, for_=(interface_context,))
 
-    #Also register as utility to getch all
+    # Also register as utility to getch all
     utility(_context, provides=IReport,
             factory=factory, name=registration_name)

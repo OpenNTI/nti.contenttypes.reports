@@ -21,6 +21,8 @@ from zope.configuration import xmlconfig
 
 from nti.contenttypes.reports.interfaces import IReport
 
+from nti.contenttypes.reports.reports import ReportContext
+
 from nti.contenttypes.reports.tests import ITestReportContext
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
@@ -50,7 +52,7 @@ HEAD_ZCML_STRING = u"""
 
 
 @interface.implementer(ITestReportContext)
-class TestReportContext():
+class TestReportContext(ReportContext):
     pass
 
 
@@ -87,9 +89,9 @@ class TestZcml(ContentTypesReportsLayerTest):
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
 
-        ut_reports = component.getAllUtilitiesRegisteredFor(IReport)
-        assert_that(reports, has_length(1))
-        uti = reports[0]
+        ut_reports = list(component.getAllUtilitiesRegisteredFor(IReport))
+        assert_that(ut_reports, has_length(1))
+        uti = ut_reports[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))
