@@ -15,9 +15,11 @@ from nti.contenttypes.reports.interfaces import get_report_predicate
 
 from nti.schema.fieldproperty import createDirectFieldProperties
 
+from nti.schema.schema import SchemaConfigured
+
 
 @interface.implementer(IReportContext)
-class ReportContext(object):
+class ReportContext(SchemaConfigured):
     """
     Concrete class representing a report context
     """
@@ -25,18 +27,14 @@ class ReportContext(object):
 
 
 @interface.implementer(IReport)
-class BaseReport(object):
+class BaseReport(SchemaConfigured):
     """
     The concrete representation of a Report object.
     """
     createDirectFieldProperties(IReport)
     
-    def __init__(self,*args, **kwargs):
-        self.name = kwargs.get('name')
-        self.permission = kwargs.get('permission')
-        self.description = kwargs.get('description')
-        self.interface_context = kwargs.get('interface_context')
-        self.supported_types = tuple(s for s in kwargs.get('supported_types'))
+    def __init__(self, *args, **kwargs):
+        SchemaConfigured.__init__(self, **kwargs)
 
     def predicate(self, context, user):
         uber_filter = get_report_predicate(self)

@@ -11,6 +11,7 @@ import functools
 from zope import interface
 
 from zope.component.zcml import subscriber
+from zope.component.zcml import utility
 
 from zope.configuration.fields import Tokens
 from zope.configuration.fields import GlobalObject
@@ -31,6 +32,7 @@ class IRegisterReport(interface.Interface):
     Interface representing a registration of a new report, defining behavior of
     the various fields
     """
+
     name = TextLine(title=u"The name of the report",
                     required=True)
 
@@ -53,11 +55,15 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, description, interface_context,
-                   permission, supported_types):
+                   permission, supported_types, registration_name=None):
     """
-    Take the items from ZCML, turn it into a report object and register it as a 
+    Take the items from ZCML, turn it into a report object and register it as a
     new utility in the current context
     """
+
+    if registration_name is None:
+        registration_name = name
+
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a subscriber
@@ -74,3 +80,7 @@ def registerReport(_context, name, description, interface_context,
     # Register the object as a subscriber
     subscriber(_context, provides=IReport,
                factory=factory, for_=(interface_context,))
+
+    # Also register as utility to getch all
+    utility(_context, provides=IReport,
+            factory=factory, name=registration_name)
