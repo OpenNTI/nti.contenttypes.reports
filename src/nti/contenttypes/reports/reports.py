@@ -17,8 +17,6 @@ from nti.schema.fieldproperty import createDirectFieldProperties
 
 from nti.schema.schema import SchemaConfigured
 
-from nti.dataserver.authorization_acl import has_permission
-
 
 @interface.implementer(IReportContext)
 class ReportContext(SchemaConfigured):
@@ -47,13 +45,10 @@ def evaluate_permission(report, context, user):
     """
 
     # Grab the permission providers
-    predicates = component.subscribers((report, user), IReportPredicate)
+    predicates = list(component.subscribers((report, user), IReportPredicate))
 
     # If there are none, don't grant permission
     if not predicates:
         return False
-
-    # Make sure all eval to true, grant if true
-    predicates = list(predicates)
 
     return all((p.evaluate(report, context, user) for p in predicates))
