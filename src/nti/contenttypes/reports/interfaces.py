@@ -46,13 +46,9 @@ class IReport(interface.Interface):
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
                                   unique=True,
-                                  value_type=TextLine(title=u"A file type (csv,pdf,etc)"),
+                                  value_type=TextLine(
+                                      title=u"A file type (csv,pdf,etc)"),
                                   required=True)
-
-    def predicate(context, user):
-        """
-        Evaluate if the user has the correct permissions for this context
-        """
 
 
 class IReportPredicate(interface.Interface):
@@ -64,11 +60,3 @@ class IReportPredicate(interface.Interface):
         """
         Evaluate if the user has the correct permissions for this context
         """
-
-
-def get_report_predicate(report):
-    predicates = list(component.subscribers((report,), IReportPredicate))
-
-    def uber_filter(context, user):
-        return all(p.evaluate(context, user) for p in predicates)
-    return uber_filter
