@@ -24,6 +24,7 @@ class IReportContext(interface.Interface):
     specially
     """
 
+
 class IReport(interface.Interface):
     """
     The base interface for a report object. This contains all the basic metadata
@@ -67,6 +68,7 @@ class IReportPredicate(interface.Interface):
 
 def get_report_predicate(report):
     predicates = list(component.subscribers((report,), IReportPredicate))
+
     def uber_filter(context, user):
         return all(p.evaluate(context, user) for p in predicates)
     return uber_filter
