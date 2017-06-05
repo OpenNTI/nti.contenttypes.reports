@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+.. $Id$
+"""
 
 from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
 
-from zope import interface
 from zope import component
+from zope import interface
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
@@ -33,7 +36,7 @@ class BaseReport(SchemaConfigured):
     """
     createDirectFieldProperties(IReport)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # specify args
         SchemaConfigured.__init__(self, **kwargs)
 
 

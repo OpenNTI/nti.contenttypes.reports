@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+.. $Id$
+"""
 
 from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
@@ -10,8 +13,8 @@ import functools
 
 from zope import interface
 
-from zope.component.zcml import subscriber
 from zope.component.zcml import utility
+from zope.component.zcml import subscriber
 
 from zope.configuration.fields import Tokens
 from zope.configuration.fields import GlobalObject
@@ -20,7 +23,8 @@ from zope.interface.interface import InterfaceClass
 
 from nti.base._compat import text_
 
-from nti.contenttypes.reports.interfaces import IReport, IReportContext
+from nti.contenttypes.reports.interfaces import IReport
+from nti.contenttypes.reports.interfaces import IReportContext
 
 from nti.contenttypes.reports.reports import BaseReport
 
@@ -55,7 +59,8 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, description, interface_context,
-                   permission, supported_types, registration_name=None):
+                   permission, supported_types, registration_name=None,
+                   report_class=BaseReport, report_interface=IReport):
     """
     Take the items from ZCML, turn it into a report object and register it as a
     new utility in the current context
@@ -67,20 +72,23 @@ def registerReport(_context, name, description, interface_context,
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a subscriber
-    factory = functools.partial(BaseReport,
+    factory = functools.partial(report_class,
                                 name=text_(name),
-                                description=text_(description),
-                                interface_context=interface_context,
                                 permission=text_(permission),
-                                supported_types=supported_types)
+                                description=text_(description),
+                                supported_types=supported_types,
+                                interface_context=interface_context,)
 
-    assert type(interface_context) is InterfaceClass, "Invalid interface"
-    assert IReportContext in interface_context.__bases__, "Invalid report context interface"
+    assert type(interface_context) is InterfaceClass, \
+           "Invalid interface"
+
+    assert IReportContext in interface_context.__bases__, \
+           "Invalid report context interface"
 
     # Register the object as a subscriber
-    subscriber(_context, provides=IReport,
+    subscriber(_context, provides=report_interface,
                factory=factory, for_=(interface_context,))
 
     # Also register as utility to getch all
-    utility(_context, provides=IReport,
+    utility(_context, provides=report_interface,
             factory=factory, name=registration_name)
