@@ -46,12 +46,9 @@ def evaluate_permission(report, context, user):
     Aggregate all permissions from all permissions
     providers. All must be true to grant permission
     """
-
     # Grab the permission providers
     predicates = list(component.subscribers((report, user), IReportPredicate))
-    
     # If there are none, don't grant permission
     if not predicates:
         return False
-    
     return all((p.evaluate(report, context, user) for p in predicates))
