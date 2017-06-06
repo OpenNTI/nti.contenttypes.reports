@@ -42,6 +42,7 @@ HEAD_ZCML_STRING = u"""
 
     <configure>
         <rep:registerReport name="TestReport"
+                            title="Test Report"
                             description="TestDescription"
                             interface_context=".tests.ITestReportContext"
                             permission="TestPermission"
@@ -83,6 +84,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(reports, has_length(1))
         uti = reports[0]
         assert_that(uti, has_property("name", "TestReport"))
+        assert_that(uti, has_property("title", "Test Report"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))
         assert_that(uti, has_property("supported_types",
@@ -93,6 +95,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(ut_reports, has_length(1))
         uti = ut_reports[0]
         assert_that(uti, has_property("name", "TestReport"))
+        assert_that(uti, has_property("title", "Test Report"))
         assert_that(uti, has_property("description", "TestDescription"))
         assert_that(uti, has_property("interface_context", not_none()))
         assert_that(uti, has_property("supported_types",

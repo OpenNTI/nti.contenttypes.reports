@@ -39,6 +39,9 @@ class IRegisterReport(interface.Interface):
 
     name = TextLine(title=u"The name of the report",
                     required=True)
+    
+    title = TextLine(title=u"The title for the report",
+                     required=True)
 
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
@@ -56,9 +59,15 @@ class IRegisterReport(interface.Interface):
 
     registration_name = TextLine(title=u"optional registration name of new report",
                                  required=False)
+    
+    report_class = GlobalObject(title=u"The type of report the factory should generate",
+                                required=False)
+    
+    report_interface = GlobalObject(title=u"The interface the factory provides",
+                                    required=False)
 
 
-def registerReport(_context, name, description, interface_context,
+def registerReport(_context, name, title, description, interface_context,
                    permission, supported_types, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
@@ -74,6 +83,7 @@ def registerReport(_context, name, description, interface_context,
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
                                 name=text_(name),
+                                title=text_(title),
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,
@@ -89,6 +99,6 @@ def registerReport(_context, name, description, interface_context,
     subscriber(_context, provides=report_interface,
                factory=factory, for_=(interface_context,))
 
-    # Also register as utility to getch all
+    # Also register as utility to fetch all
     utility(_context, provides=report_interface,
             factory=factory, name=registration_name)

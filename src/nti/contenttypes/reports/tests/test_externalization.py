@@ -36,6 +36,7 @@ class TestExternal(ContentTypesReportsLayerTest):
         """
         # Create example object and make an external object
         report = BaseReport(name=u"TestBasic", 
+                            title=u"Test Report",
                             description=u"TestBasicDescription",
                             interface_context=ITestReportContext, 
                             permission=u"TestPermission", 
@@ -46,6 +47,7 @@ class TestExternal(ContentTypesReportsLayerTest):
         assert_that(ext_obj, 
                     has_entries(CLASS, "BaseReport",
                                 "name", "TestBasic",
+                                "title", "Test Report",
                                 "description", "TestBasicDescription",
                                 "interface_context", has_entry(CLASS,
                                                                ITestReportContext.__name__),
