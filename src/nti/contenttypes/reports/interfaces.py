@@ -55,7 +55,7 @@ class IReportPredicate(interface.Interface):
     Subscriber for report objects has the correct permissions for this context
     """
 
-    def evaluate(context, user):
+    def evaluate(report, context, user):
         """
         Evaluate if the user has the correct permissions for this context
         """
