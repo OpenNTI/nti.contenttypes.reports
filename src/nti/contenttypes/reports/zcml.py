@@ -39,6 +39,9 @@ class IRegisterReport(interface.Interface):
 
     name = TextLine(title=u"The name of the report",
                     required=True)
+    
+    title = TextLine(title=u"The title for the report",
+                     required=True)
 
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
@@ -64,7 +67,7 @@ class IRegisterReport(interface.Interface):
                                     required=False)
 
 
-def registerReport(_context, name, description, interface_context,
+def registerReport(_context, name, title, description, interface_context,
                    permission, supported_types, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
@@ -80,6 +83,7 @@ def registerReport(_context, name, description, interface_context,
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
                                 name=text_(name),
+                                title=text_(title),
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,

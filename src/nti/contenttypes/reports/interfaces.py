@@ -32,7 +32,10 @@ class IReport(interface.Interface):
 
     name = TextLine(title=u"The name of the report",
                     required=True)
-
+    
+    title = TextLine(title=u"The title of the report",
+                     required=True)
+    
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
