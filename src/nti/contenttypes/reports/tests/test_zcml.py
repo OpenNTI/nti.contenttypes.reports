@@ -47,6 +47,13 @@ HEAD_ZCML_STRING = u"""
                             interface_context=".tests.ITestReportContext"
                             permission="TestPermission"
                             supported_types="csv pdf" />
+        <rep:registerReport name="AnotherTestReport"
+                            title="Another Test Report"
+                            description="Another Test Description"
+                            interface_context=".tests.ITestReportContext"
+                            permission="TestPermission"
+                            supported_types="csv pdf"
+                            condition=".tests.test_schema.test_condition" />
     </configure>
 </configure>
 """
@@ -59,7 +66,7 @@ class TestReportContext(ReportContext):
 
 class TestZcml(ContentTypesReportsLayerTest):
     """
-    Reponsible for testing the ZCML processing of registerReport-involved directives
+    Responsible for testing the ZCML processing of registerReport-involved directives
     """
 
     def test_register_report(self):
@@ -81,7 +88,7 @@ class TestZcml(ContentTypesReportsLayerTest):
 
         # Be sure that the subscriber we ended up with matches the test registration in the
         # sample ZCML
-        assert_that(reports, has_length(1))
+        assert_that(reports, has_length(2))
         uti = reports[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("title", "Test Report"))
@@ -90,9 +97,11 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(uti, has_property("supported_types",
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
+        
+        assert_that(reports[1], has_property("condition", not_none()))
 
         ut_reports = list(component.getAllUtilitiesRegisteredFor(IReport))
-        assert_that(ut_reports, has_length(1))
+        assert_that(ut_reports, has_length(2))
         uti = ut_reports[0]
         assert_that(uti, has_property("name", "TestReport"))
         assert_that(uti, has_property("title", "Test Report"))
@@ -101,3 +110,5 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(uti, has_property("supported_types",
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
+        
+        assert_that(ut_reports[1], has_property("condition", not_none()))

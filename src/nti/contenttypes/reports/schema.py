@@ -5,6 +5,7 @@
 """
 
 from __future__ import print_function, absolute_import, division
+from boto.dynamodb import schema
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -46,6 +47,24 @@ class ValidInterface(Object):
         if self.schema not in value.__bases__:
             raise SchemaNotProvided
 
+    def fromUnicode(self, value):
+        value = value.strip()
+        if not _isdotted(value):
+            raise InvalidDottedName(value)
+        value = dottedname.resolve(value)
+        self._validate(value)
+        return value
+
+@interface.implementer(IFromUnicode)
+class ValidCondition(Object):
+    
+    def __init__(self, **kw):
+        Field.__init__(self, **kw)
+    
+    def _validate(self, value):
+        if not callable(value):
+            raise WrongType(schema, "function", self.__name__)
+    
     def fromUnicode(self, value):
         value = value.strip()
         if not _isdotted(value):

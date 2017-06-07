@@ -33,3 +33,7 @@ class _ReportDecorator(object):
         external['interface_context'] = {
             CLASS: original.interface_context.__name__
         }
+        if original.condition is not None:
+            external['condition'] = {
+                "func_name": original.condition.__name__
+            }

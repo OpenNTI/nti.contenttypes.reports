@@ -10,7 +10,10 @@ __docformat__ = "restructuredtext en"
 from hamcrest import has_entry
 from hamcrest import assert_that
 from hamcrest import has_entries
+from hamcrest import has_entry
 from hamcrest import contains_inanyorder
+from hamcrest import not_none
+from hamcrest import is_not as does_not
 
 from nti.contenttypes.reports.reports import BaseReport
 
@@ -26,9 +29,11 @@ CLASS = StandardExternalFields.CLASS
 
 class TestExternal(ContentTypesReportsLayerTest):
     """
-    Run unit tests on the two derived IReport clases to be sure we can make them
+    Run unit tests on the two derived IReport classes to be sure we can make them
     externally facing
     """
+    def _test_function(self):
+        return True
 
     def test_basic_report_ext(self):
         """
@@ -40,9 +45,10 @@ class TestExternal(ContentTypesReportsLayerTest):
                             description=u"TestBasicDescription",
                             interface_context=ITestReportContext, 
                             permission=u"TestPermission", 
-                            supported_types=[u"csv", u"pdf"])
+                            supported_types=[u"csv", u"pdf"],
+                            condition=self._test_function)
         ext_obj = to_external_object(report)
-
+        
         # Be sure that the external object has the right specs
         assert_that(ext_obj, 
                     has_entries(CLASS, "BaseReport",
@@ -52,4 +58,5 @@ class TestExternal(ContentTypesReportsLayerTest):
                                 "interface_context", has_entry(CLASS,
                                                                ITestReportContext.__name__),
                                 "permission", "TestPermission",
-                                "supported_types", contains_inanyorder("csv", "pdf")))
+                                "supported_types", contains_inanyorder("csv", "pdf"),
+                                "condition", has_entry("func_name", "_test_function")))

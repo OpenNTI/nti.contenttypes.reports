@@ -56,6 +56,9 @@ class IRegisterReport(interface.Interface):
                              title=u"The list of supported types for this report",
                              unique=True,
                              required=True)
+    
+    condition = GlobalObject(title=u"A function that must return true for this report to be decorated",
+                             required=False)
 
     registration_name = TextLine(title=u"optional registration name of new report",
                                  required=False)
@@ -68,7 +71,7 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, title, description, interface_context,
-                   permission, supported_types, registration_name=None,
+                   permission, supported_types, condition=None, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
     Take the items from ZCML, turn it into a report object and register it as a
@@ -87,6 +90,7 @@ def registerReport(_context, name, title, description, interface_context,
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,
+                                condition=condition,
                                 interface_context=interface_context,)
 
     assert type(interface_context) is InterfaceClass, \

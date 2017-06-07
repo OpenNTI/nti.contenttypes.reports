@@ -12,6 +12,7 @@ logger = __import__('logging').getLogger(__name__)
 from zope import interface
 
 from nti.contenttypes.reports.schema import ValidInterface
+from nti.contenttypes.reports.schema import ValidCondition
 
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
@@ -51,7 +52,10 @@ class IReport(interface.Interface):
                                   value_type=TextLine(
                                       title=u"A file type (csv,pdf,etc)"),
                                   required=True)
-
+    
+    condition = ValidCondition(title=u"A condition for if a report should be decorated",
+                               required=False)
+    condition.setTaggedValue('_ext_excluded_out', True)
 
 class IReportPredicate(interface.Interface):
     """
