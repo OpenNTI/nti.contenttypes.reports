@@ -16,6 +16,9 @@ from zope.interface.interface import InterfaceClass
 from nti.contenttypes.reports.schema import ValidInterface
 from nti.contenttypes.reports.schema import ValidPredicate
 
+from nti.schema.field import TextLine
+from nti.schema.field import ListOrTuple
+
 
 class IReportContext(interface.Interface):
     """
