@@ -11,25 +11,10 @@ logger = __import__('logging').getLogger(__name__)
 
 from zope import interface
 
-from zope.dottedname import resolve as dottedname
-
 from zope.interface.interface import InterfaceClass
-
-from zope.schema import Field
-
-from zope.schema._field import _isdotted
-
-from zope.schema.interfaces import WrongType
-from zope.schema.interfaces import IFromUnicode
-from zope.schema.interfaces import InvalidDottedName
-from zope.schema.interfaces import SchemaNotProvided
 
 from nti.contenttypes.reports.schema import ValidInterface
 from nti.contenttypes.reports.schema import ValidPredicate
-
-from nti.schema.field import TextLine
-from nti.schema.field import ListOrTuple
-from nti.schema.field import Object
 
 
 class IReportContext(interface.Interface):
