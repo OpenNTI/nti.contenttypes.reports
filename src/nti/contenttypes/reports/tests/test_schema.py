@@ -11,23 +11,19 @@ from hamcrest import assert_that
 from hamcrest import equal_to
 
 from nti.contenttypes.reports.interfaces import IReportContext
+from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.contenttypes.reports.schema import ValidInterface
-from nti.contenttypes.reports.schema import ValidCondition
+from nti.contenttypes.reports.schema import ValidPredicate
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
-
-
-def test_condition():
-    return True
 
 class TestSchema(ContentTypesReportsLayerTest):
 
     def test_valid_function(self):
         schema = ValidInterface(IReportContext)
         schema.fromUnicode("nti.contenttypes.reports.tests.ITestReportContext")
-
-    def test_valid_condition(self):
-        condition = ValidCondition()
-        f = condition.fromUnicode("nti.contenttypes.reports.tests.test_schema.test_condition")
-        assert_that(f(), equal_to(True))
+    
+    def test_valid_predicate(self):
+        schema = ValidPredicate(IReportAvailablePredicate)
+        schema.fromUnicode("nti.contenttypes.reports.tests.TestReportPredicate")

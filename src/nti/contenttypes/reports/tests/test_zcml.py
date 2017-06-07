@@ -53,7 +53,7 @@ HEAD_ZCML_STRING = u"""
                             interface_context=".tests.ITestReportContext"
                             permission="TestPermission"
                             supported_types="csv pdf"
-                            condition=".tests.test_schema.test_condition" />
+                            condition=".tests.TestReportPredicate" />
     </configure>
 </configure>
 """

@@ -11,11 +11,25 @@ logger = __import__('logging').getLogger(__name__)
 
 from zope import interface
 
+from zope.dottedname import resolve as dottedname
+
+from zope.interface.interface import InterfaceClass
+
+from zope.schema import Field
+
+from zope.schema._field import _isdotted
+
+from zope.schema.interfaces import WrongType
+from zope.schema.interfaces import IFromUnicode
+from zope.schema.interfaces import InvalidDottedName
+from zope.schema.interfaces import SchemaNotProvided
+
 from nti.contenttypes.reports.schema import ValidInterface
-from nti.contenttypes.reports.schema import ValidCondition
+from nti.contenttypes.reports.schema import ValidPredicate
 
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
+from nti.schema.field import Object
 
 
 class IReportContext(interface.Interface):
@@ -24,6 +38,25 @@ class IReportContext(interface.Interface):
     specially
     """
 
+class IReportPredicate(interface.Interface):
+    """
+    Subscriber for report objects has the correct permissions for this context
+    """
+
+    def evaluate(report, context, user):
+        """
+        Evaluate if the user has the correct permissions for this context
+        """
+
+class IReportAvailablePredicate(IReportPredicate):
+    """
+    Evaluate whether a report should be decorated onto
+    a context.
+    
+    The key difference between this and the previous predicate interface
+    is that this will return the new link context if it is defined, rather
+    than strictly true or false
+    """
 
 class IReport(interface.Interface):
     """
@@ -53,16 +86,7 @@ class IReport(interface.Interface):
                                       title=u"A file type (csv,pdf,etc)"),
                                   required=True)
     
-    condition = ValidCondition(title=u"A condition for if a report should be decorated",
+    condition = ValidPredicate(IReportAvailablePredicate,
+                               title=u"A condition for if a report should be decorated",
                                required=False)
     condition.setTaggedValue('_ext_excluded_out', True)
-
-class IReportPredicate(interface.Interface):
-    """
-    Subscriber for report objects has the correct permissions for this context
-    """
-
-    def evaluate(report, context, user):
-        """
-        Evaluate if the user has the correct permissions for this context
-        """

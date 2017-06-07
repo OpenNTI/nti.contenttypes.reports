@@ -35,5 +35,5 @@ class _ReportDecorator(object):
         }
         if original.condition is not None:
             external['condition'] = {
-                "func_name": original.condition.__name__
+                CLASS: original.condition.__name__
             }

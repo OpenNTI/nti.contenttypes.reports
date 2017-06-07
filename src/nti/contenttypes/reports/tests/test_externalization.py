@@ -23,8 +23,10 @@ from nti.externalization.externalization import StandardExternalFields
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 from nti.contenttypes.reports.tests import ITestReportContext
+from nti.contenttypes.reports.tests import TestReportPredicate
 
 CLASS = StandardExternalFields.CLASS
+
 
 
 class TestExternal(ContentTypesReportsLayerTest):
@@ -32,8 +34,6 @@ class TestExternal(ContentTypesReportsLayerTest):
     Run unit tests on the two derived IReport classes to be sure we can make them
     externally facing
     """
-    def _test_function(self):
-        return True
 
     def test_basic_report_ext(self):
         """
@@ -46,7 +46,7 @@ class TestExternal(ContentTypesReportsLayerTest):
                             interface_context=ITestReportContext, 
                             permission=u"TestPermission", 
                             supported_types=[u"csv", u"pdf"],
-                            condition=self._test_function)
+                            condition=TestReportPredicate)
         ext_obj = to_external_object(report)
         
         # Be sure that the external object has the right specs
@@ -59,4 +59,4 @@ class TestExternal(ContentTypesReportsLayerTest):
                                                                ITestReportContext.__name__),
                                 "permission", "TestPermission",
                                 "supported_types", contains_inanyorder("csv", "pdf"),
-                                "condition", has_entry("func_name", "_test_function")))
+                                "condition", has_entry(CLASS, TestReportPredicate.__name__)))

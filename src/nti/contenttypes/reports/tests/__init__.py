@@ -50,8 +50,17 @@ class ContentTypesReportsLayerTest(unittest.TestCase):
 
 
 from nti.contenttypes.reports.interfaces import IReportContext
+from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 class ITestReportContext(IReportContext):
     """
     Test interface to be used in place of other interfaces in unit tests
     """
+
+@interface.implementer(IReportAvailablePredicate)
+class TestReportPredicate():
+    """
+    Test predicate for if a report should be decorated
+    """
+    def evaluate(self, report, context, user):
+        return True

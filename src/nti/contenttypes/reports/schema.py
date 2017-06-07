@@ -5,7 +5,6 @@
 """
 
 from __future__ import print_function, absolute_import, division
-from boto.dynamodb import schema
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -26,7 +25,6 @@ from zope.schema.interfaces import InvalidDottedName
 from zope.schema.interfaces import SchemaNotProvided
 
 from nti.schema.field import Object
-
 
 @interface.implementer(IFromUnicode)
 class ValidInterface(Object):
@@ -55,16 +53,12 @@ class ValidInterface(Object):
         self._validate(value)
         return value
 
-@interface.implementer(IFromUnicode)
-class ValidCondition(Object):
-    
-    def __init__(self, **kw):
-        Field.__init__(self, **kw)
-    
+class ValidPredicate(ValidInterface):
+
     def _validate(self, value):
-        if not callable(value):
-            raise WrongType(schema, "function", self.__name__)
-    
+        if not self.schema.implementedBy(value):
+            raise WrongType(value, self._type, self.__name__)
+
     def fromUnicode(self, value):
         value = value.strip()
         if not _isdotted(value):
