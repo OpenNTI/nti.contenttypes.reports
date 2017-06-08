@@ -49,10 +49,16 @@ class BaseReportAvailablePredicate():
     """
     createDirectFieldProperties(IReportAvailablePredicate)
     
-    def evaluate(self, report, context, user):
+    def set_link_elements(self, report, context):
         self.context = context
         self.rel = "report-%s" % report.name
         self.elements = ("@@"+report.name,)
+    
+    def evaluate(self, report, context, user):
+        """
+        Evaluate if this report should be decorated
+        onto the context
+        """
         return True
 
 def evaluate_permission(report, context, user):
