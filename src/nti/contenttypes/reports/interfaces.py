@@ -88,8 +88,7 @@ class IReport(interface.Interface):
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
                                   unique=True,
-                                  value_type=TextLine(
-                                      title=u"A file type (csv,pdf,etc)"),
+                                  value_type=TextLine(title=u"A file type (csv,pdf,etc)"),
                                   required=True)
 
     condition = ValidPredicate(IReportAvailablePredicate,
