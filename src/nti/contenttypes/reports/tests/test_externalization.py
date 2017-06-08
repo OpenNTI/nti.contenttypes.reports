@@ -10,10 +10,7 @@ __docformat__ = "restructuredtext en"
 from hamcrest import has_entry
 from hamcrest import assert_that
 from hamcrest import has_entries
-from hamcrest import has_entry
 from hamcrest import contains_inanyorder
-from hamcrest import not_none
-from hamcrest import is_not as does_not
 
 from nti.contenttypes.reports.reports import BaseReport
 
@@ -23,10 +20,11 @@ from nti.externalization.externalization import StandardExternalFields
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 from nti.contenttypes.reports.tests import ITestReportContext
+from nti.contenttypes.reports.tests import ITestSecondReportContext
 from nti.contenttypes.reports.tests import TestReportPredicate
 
 CLASS = StandardExternalFields.CLASS
-
+ITEMS = StandardExternalFields.ITEMS
 
 
 class TestExternal(ContentTypesReportsLayerTest):
@@ -43,7 +41,8 @@ class TestExternal(ContentTypesReportsLayerTest):
         report = BaseReport(name=u"TestBasic", 
                             title=u"Test Report",
                             description=u"TestBasicDescription",
-                            interface_context=ITestReportContext, 
+                            interface_context=(ITestReportContext,
+                                               ITestSecondReportContext), 
                             permission=u"TestPermission", 
                             supported_types=[u"csv", u"pdf"],
                             condition=TestReportPredicate)
@@ -55,8 +54,9 @@ class TestExternal(ContentTypesReportsLayerTest):
                                 "name", "TestBasic",
                                 "title", "Test Report",
                                 "description", "TestBasicDescription",
-                                "interface_context", has_entry(CLASS,
-                                                               ITestReportContext.__name__),
+                                "interface_context", has_entry(ITEMS,
+                                                    contains_inanyorder(ITestReportContext.__name__,
+                                                                        ITestSecondReportContext.__name__)),
                                 "permission", "TestPermission",
                                 "supported_types", contains_inanyorder("csv", "pdf"),
                                 "condition", has_entry(CLASS, TestReportPredicate.__name__)))

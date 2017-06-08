@@ -18,12 +18,14 @@ from nti.contenttypes.reports.schema import ValidPredicate
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
+
 class TestSchema(ContentTypesReportsLayerTest):
 
     def test_valid_function(self):
         schema = ValidInterface(IReportContext)
         schema.fromUnicode("nti.contenttypes.reports.tests.ITestReportContext")
-    
+
     def test_valid_predicate(self):
         schema = ValidPredicate(IReportAvailablePredicate)
-        schema.fromUnicode("nti.contenttypes.reports.tests.TestReportPredicate")
+        schema.fromUnicode(
+            "nti.contenttypes.reports.tests.TestReportPredicate")

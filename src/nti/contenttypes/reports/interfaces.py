@@ -21,11 +21,13 @@ from nti.schema.field import ListOrTuple
 
 from zope.configuration.fields import GlobalObject
 
+
 class IReportContext(interface.Interface):
     """
     Wraps the context of an IReport around a class to externalize
     specially
     """
+
 
 class IReportPredicate(interface.Interface):
     """
@@ -37,24 +39,26 @@ class IReportPredicate(interface.Interface):
         Evaluate if the user has the correct permissions for this context
         """
 
+
 class IReportAvailablePredicate(IReportPredicate):
     """
     Evaluate whether a report should be decorated onto
     a context.
-    
-    
+
+
     """
     context = GlobalObject(title=u"Context for a link to a report",
-                     required=True)
-    
+                           required=True)
+
     rel = TextLine(title=u"Rel for a link to a report",
                    required=True)
-    
+
     elements = ListOrTuple(title=u"Elements in a link to a report",
                            unique=True,
                            value_type=TextLine(
                                title=u"Element in link"),
                            required=True)
+
 
 class IReport(interface.Interface):
     """
@@ -64,15 +68,19 @@ class IReport(interface.Interface):
 
     name = TextLine(title=u"The name of the report",
                     required=True)
-    
+
     title = TextLine(title=u"The title of the report",
                      required=True)
-    
+
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
-    interface_context = ValidInterface(IReportContext,
-                                       title=u"The context within which the report operates")
+    interface_context = ListOrTuple(title=u"Contexts for this report",
+                                    value_type=ValidInterface(IReportContext,
+                                                              title=u"The context within which the report operates"),
+                                    unique=True,
+                                    required=True)
+
     interface_context.setTaggedValue('_ext_excluded_out', True)
 
     permission = TextLine(title=u"The permission level required to access this report",
@@ -83,7 +91,7 @@ class IReport(interface.Interface):
                                   value_type=TextLine(
                                       title=u"A file type (csv,pdf,etc)"),
                                   required=True)
-    
+
     condition = ValidPredicate(IReportAvailablePredicate,
                                title=u"A condition for if a report should be decorated",
                                required=False)

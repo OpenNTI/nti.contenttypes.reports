@@ -40,6 +40,7 @@ class BaseReport(SchemaConfigured):
     def __init__(self, *args, **kwargs):  # specify args
         SchemaConfigured.__init__(self, **kwargs)
 
+
 @interface.implementer(IReportAvailablePredicate)
 class BaseReportAvailablePredicate():
     """
@@ -48,18 +49,19 @@ class BaseReportAvailablePredicate():
     work.
     """
     createDirectFieldProperties(IReportAvailablePredicate)
-    
+
     def set_link_elements(self, report, context):
         self.context = context
         self.rel = "report-%s" % report.name
-        self.elements = ("@@"+report.name,)
-    
+        self.elements = ("@@" + report.name,)
+
     def evaluate(self, report, context, user):
         """
         Evaluate if this report should be decorated
         onto the context
         """
         return True
+
 
 def evaluate_permission(report, context, user):
     """
@@ -70,9 +72,9 @@ def evaluate_permission(report, context, user):
 
     # Grab the permission providers
     predicates = list(component.subscribers((report, user), IReportPredicate))
-    
+
     # If there are none, don't grant permission
     if not predicates:
         return False
-    
+
     return all((p.evaluate(report, context, user) for p in predicates))

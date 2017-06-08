@@ -26,6 +26,7 @@ from zope.schema.interfaces import SchemaNotProvided
 
 from nti.schema.field import Object
 
+
 @interface.implementer(IFromUnicode)
 class ValidInterface(Object):
 
@@ -52,6 +53,7 @@ class ValidInterface(Object):
         value = dottedname.resolve(value)
         self._validate(value)
         return value
+
 
 class ValidPredicate(ValidInterface):
 
