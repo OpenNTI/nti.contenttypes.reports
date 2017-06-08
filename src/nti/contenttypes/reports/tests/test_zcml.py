@@ -22,10 +22,11 @@ from zope.configuration import xmlconfig
 from nti.contenttypes.reports.interfaces import IReport
 
 from nti.contenttypes.reports.reports import ReportContext
+from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
 
 from nti.contenttypes.reports.tests import ITestReportContext
-
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
+from nti.contenttypes.reports.tests import TestReportPredicate
 
 
 # Example ZCML file that would call the registerReport directive
@@ -97,6 +98,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(uti, has_property("supported_types",
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
+        assert_that(uti, has_property("condition", not_none()))
         
         assert_that(reports[1], has_property("condition", not_none()))
 
@@ -110,5 +112,6 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(uti, has_property("supported_types",
                                       contains_inanyorder("pdf", "csv")))
         assert_that(uti, has_property("permission", "TestPermission"))
+        assert_that(uti, has_property("condition", not_none()))
         
         assert_that(ut_reports[1], has_property("condition", not_none()))

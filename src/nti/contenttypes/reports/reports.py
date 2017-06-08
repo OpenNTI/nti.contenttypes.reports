@@ -15,6 +15,7 @@ from zope import interface
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 from nti.contenttypes.reports.interfaces import IReportPredicate
+from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.schema.fieldproperty import createDirectFieldProperties
 
@@ -39,6 +40,20 @@ class BaseReport(SchemaConfigured):
     def __init__(self, *args, **kwargs):  # specify args
         SchemaConfigured.__init__(self, **kwargs)
 
+@interface.implementer(IReportAvailablePredicate)
+class BaseReportAvailablePredicate():
+    """
+    Class that will be inherited from by custom
+    report predicates. Takes care of some of the dirty
+    work.
+    """
+    createDirectFieldProperties(IReportAvailablePredicate)
+    
+    def evaluate(self, report, context, user):
+        self.context = context
+        self.rel = "report-%s" % report.name
+        self.elements = ("@@"+report.name,)
+        return True
 
 def evaluate_permission(report, context, user):
     """
