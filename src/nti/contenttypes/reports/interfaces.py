@@ -19,6 +19,7 @@ from nti.contenttypes.reports.schema import ValidPredicate
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
 
+from zope.configuration.fields import GlobalObject
 
 class IReportContext(interface.Interface):
     """
@@ -41,10 +42,19 @@ class IReportAvailablePredicate(IReportPredicate):
     Evaluate whether a report should be decorated onto
     a context.
     
-    The key difference between this and the previous predicate interface
-    is that this will return the new link context if it is defined, rather
-    than strictly true or false
+    
     """
+    context = GlobalObject(title=u"Context for a link to a report",
+                     required=True)
+    
+    rel = TextLine(title=u"Rel for a link to a report",
+                   required=True)
+    
+    elements = ListOrTuple(title=u"Elements in a link to a report",
+                           unique=True,
+                           value_type=TextLine(
+                               title=u"Element in link"),
+                           required=True)
 
 class IReport(interface.Interface):
     """
