@@ -48,7 +48,7 @@ class IRegisterReport(interface.Interface):
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
-    interface_context = Tokens(title=u"The contexts for this report",
+    contexts = Tokens(title=u"The contexts for this report",
                                value_type=GlobalObject(
                                    title=u"The context within which the report operates"),
                                unique=True,
@@ -75,7 +75,7 @@ class IRegisterReport(interface.Interface):
                                     required=False)
 
 
-def registerReport(_context, name, title, description, interface_context,
+def registerReport(_context, name, title, description, contexts,
                    permission, supported_types, condition=None, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
@@ -91,7 +91,7 @@ def registerReport(_context, name, title, description, interface_context,
 
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
-    interface_contexts = tuple(interface_context)
+    contexts = tuple(contexts)
 
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
@@ -101,16 +101,16 @@ def registerReport(_context, name, title, description, interface_context,
                                 description=text_(description),
                                 supported_types=supported_types,
                                 condition=condition,
-                                interface_context=interface_contexts,)
+                                contexts=contexts,)
 
-    assert (type(interface) is InterfaceClass for interface in interface_contexts), \
+    assert (type(interface) is InterfaceClass for interface in contexts), \
         "Invalid interface"
 
-    assert (IReportContext in interface.__bases__ for interface in interface_contexts), \
+    assert (IReportContext in interface.__bases__ for interface in contexts), \
         "Invalid report context interface"
 
     # Register the object as a subscriber
-    for interface in interface_contexts:
+    for interface in contexts:
         subscriber(_context, provides=report_interface,
                    factory=factory, for_=(interface,))
 

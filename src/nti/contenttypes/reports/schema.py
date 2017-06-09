@@ -60,11 +60,3 @@ class ValidPredicate(ValidInterface):
     def _validate(self, value):
         if not self.schema.implementedBy(value):
             raise WrongType(value, self._type, self.__name__)
-
-    def fromUnicode(self, value):
-        value = value.strip()
-        if not _isdotted(value):
-            raise InvalidDottedName(value)
-        value = dottedname.resolve(value)
-        self._validate(value)
-        return value

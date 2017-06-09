@@ -46,14 +46,14 @@ HEAD_ZCML_STRING = u"""
         <rep:registerReport name="TestReport"
                             title="Test Report"
                             description="TestDescription"
-                            interface_context=".tests.ITestReportContext"
+                            contexts=".tests.ITestReportContext"
                             permission="TestPermission"
                             supported_types="csv pdf" />
         <rep:registerReport name="AnotherTestReport"
                             title="Another Test Report"
                             description="Another Test Description"
-                            interface_context=".tests.ITestReportContext
-                                               .tests.ITestSecondReportContext"
+                            contexts=".tests.ITestReportContext
+                                      .tests.ITestSecondReportContext"
                             permission="TestPermission"
                             supported_types="csv pdf"
                             condition=".tests.TestReportPredicate" />
@@ -81,7 +81,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("name", "TestReport"))
         assert_that(report, has_property("title", "Test Report"))
         assert_that(report, has_property("description", "TestDescription"))
-        assert_that(report, has_property("interface_context", not_none()))
+        assert_that(report, has_property("contexts", not_none()))
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
         assert_that(report, has_property("permission", "TestPermission"))
@@ -95,7 +95,7 @@ class TestZcml(ContentTypesReportsLayerTest):
             has_property(
                 "description",
                 "Another Test Description"))
-        assert_that(report, has_property("interface_context", has_length(2)))
+        assert_that(report, has_property("contexts", has_length(2)))
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
         assert_that(report, has_property("permission", "TestPermission"))

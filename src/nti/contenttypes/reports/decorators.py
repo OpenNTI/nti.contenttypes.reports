@@ -32,9 +32,9 @@ class _ReportDecorator(object):
 
     def decorateExternalObject(self, original, external):
         contexts = []
-        for context in original.interface_context:
+        for context in original.contexts:
             contexts.append(context.__name__)
-        external['interface_context'] = {
+        external['contexts'] = {
             ITEMS: contexts
         }
         if original.condition is not None:

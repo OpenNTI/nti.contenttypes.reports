@@ -75,13 +75,13 @@ class IReport(interface.Interface):
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
-    interface_context = ListOrTuple(title=u"Contexts for this report",
+    contexts = ListOrTuple(title=u"Contexts for this report",
                                     value_type=ValidInterface(IReportContext,
                                                               title=u"The context within which the report operates"),
                                     unique=True,
                                     required=True)
 
-    interface_context.setTaggedValue('_ext_excluded_out', True)
+    contexts.setTaggedValue('_ext_excluded_out', True)
 
     permission = TextLine(title=u"The permission level required to access this report",
                           required=True)
