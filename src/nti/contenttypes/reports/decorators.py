@@ -31,11 +31,8 @@ class _ReportDecorator(object):
     __metaclass__ = SingletonDecorator
 
     def decorateExternalObject(self, original, external):
-        contexts = []
-        for context in original.contexts:
-            contexts.append(context.__name__)
         external['contexts'] = {
-            ITEMS: contexts
+            ITEMS: [x.__name__ for x in original.contexts or ()]
         }
         if original.condition is not None:
             external['condition'] = {

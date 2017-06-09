@@ -71,7 +71,6 @@ def evaluate_permission(report, context, user):
     """
     # Grab the permission providers
     predicates = list(component.subscribers((report, user), IReportPredicate))
-
     # If there are none, don't grant permission
     if not predicates:
         return False

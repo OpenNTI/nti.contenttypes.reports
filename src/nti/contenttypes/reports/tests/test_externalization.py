@@ -21,6 +21,7 @@ from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 from nti.contenttypes.reports.tests import ITestReportContext
 from nti.contenttypes.reports.tests import ITestSecondReportContext
+
 from nti.contenttypes.reports.tests import TestReportPredicate
 
 CLASS = StandardExternalFields.CLASS
@@ -49,6 +50,7 @@ class TestExternal(ContentTypesReportsLayerTest):
         ext_obj = to_external_object(report)
         
         # Be sure that the external object has the right specs
+        class_name = getattr(TestReportPredicate, '__name__')
         assert_that(ext_obj, 
                     has_entries(CLASS, "BaseReport",
                                 "name", "TestBasic",
@@ -59,4 +61,4 @@ class TestExternal(ContentTypesReportsLayerTest):
                                                                         ITestSecondReportContext.__name__)),
                                 "permission", "TestPermission",
                                 "supported_types", contains_inanyorder("csv", "pdf"),
-                                "condition", has_entry(CLASS, TestReportPredicate.__name__)))
+                                "condition", has_entry(CLASS, class_name)))
