@@ -20,13 +20,16 @@ from nti.externalization.externalization import StandardExternalFields
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
 from nti.contenttypes.reports.tests import ITestReportContext
+from nti.contenttypes.reports.tests import ITestSecondReportContext
+from nti.contenttypes.reports.tests import TestReportPredicate
 
 CLASS = StandardExternalFields.CLASS
+ITEMS = StandardExternalFields.ITEMS
 
 
 class TestExternal(ContentTypesReportsLayerTest):
     """
-    Run unit tests on the two derived IReport clases to be sure we can make them
+    Run unit tests on the two derived IReport classes to be sure we can make them
     externally facing
     """
 
@@ -38,18 +41,22 @@ class TestExternal(ContentTypesReportsLayerTest):
         report = BaseReport(name=u"TestBasic", 
                             title=u"Test Report",
                             description=u"TestBasicDescription",
-                            interface_context=ITestReportContext, 
+                            contexts=(ITestReportContext,
+                                      ITestSecondReportContext), 
                             permission=u"TestPermission", 
-                            supported_types=[u"csv", u"pdf"])
+                            supported_types=[u"csv", u"pdf"],
+                            condition=TestReportPredicate)
         ext_obj = to_external_object(report)
-
+        
         # Be sure that the external object has the right specs
         assert_that(ext_obj, 
                     has_entries(CLASS, "BaseReport",
                                 "name", "TestBasic",
                                 "title", "Test Report",
                                 "description", "TestBasicDescription",
-                                "interface_context", has_entry(CLASS,
-                                                               ITestReportContext.__name__),
+                                "contexts", has_entry(ITEMS,
+                                                    contains_inanyorder(ITestReportContext.__name__,
+                                                                        ITestSecondReportContext.__name__)),
                                 "permission", "TestPermission",
-                                "supported_types", contains_inanyorder("csv", "pdf")))
+                                "supported_types", contains_inanyorder("csv", "pdf"),
+                                "condition", has_entry(CLASS, TestReportPredicate.__name__)))

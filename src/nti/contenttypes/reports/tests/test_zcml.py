@@ -22,10 +22,12 @@ from zope.configuration import xmlconfig
 from nti.contenttypes.reports.interfaces import IReport
 
 from nti.contenttypes.reports.reports import ReportContext
+from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
 
 from nti.contenttypes.reports.tests import ITestReportContext
-
+from nti.contenttypes.reports.tests import ITestSecondReportContext
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
+from nti.contenttypes.reports.tests import TestReportPredicate
 
 
 # Example ZCML file that would call the registerReport directive
@@ -44,9 +46,17 @@ HEAD_ZCML_STRING = u"""
         <rep:registerReport name="TestReport"
                             title="Test Report"
                             description="TestDescription"
-                            interface_context=".tests.ITestReportContext"
+                            contexts=".tests.ITestReportContext"
                             permission="TestPermission"
                             supported_types="csv pdf" />
+        <rep:registerReport name="AnotherTestReport"
+                            title="Another Test Report"
+                            description="Another Test Description"
+                            contexts=".tests.ITestReportContext
+                                      .tests.ITestSecondReportContext"
+                            permission="TestPermission"
+                            supported_types="csv pdf"
+                            condition=".tests.TestReportPredicate" />
     </configure>
 </configure>
 """
@@ -57,10 +67,39 @@ class TestReportContext(ReportContext):
     pass
 
 
+@interface.implementer(ITestSecondReportContext)
+class TestSecondReportContext(ReportContext):
+    pass
+
+
 class TestZcml(ContentTypesReportsLayerTest):
     """
-    Reponsible for testing the ZCML processing of registerReport-involved directives
+    Responsible for testing the ZCML processing of registerReport-involved directives
     """
+
+    def _test_for_test_report(self, report):
+        assert_that(report, has_property("name", "TestReport"))
+        assert_that(report, has_property("title", "Test Report"))
+        assert_that(report, has_property("description", "TestDescription"))
+        assert_that(report, has_property("contexts", not_none()))
+        assert_that(report, has_property("supported_types",
+                                         contains_inanyorder("pdf", "csv")))
+        assert_that(report, has_property("permission", "TestPermission"))
+        assert_that(report, has_property("condition", not_none()))
+
+    def _test_for_another_report(self, report):
+        assert_that(report, has_property("name", "AnotherTestReport"))
+        assert_that(report, has_property("title", "Another Test Report"))
+        assert_that(
+            report,
+            has_property(
+                "description",
+                "Another Test Description"))
+        assert_that(report, has_property("contexts", has_length(2)))
+        assert_that(report, has_property("supported_types",
+                                         contains_inanyorder("pdf", "csv")))
+        assert_that(report, has_property("permission", "TestPermission"))
+        assert_that(report, has_property("condition", not_none()))
 
     def test_register_report(self):
         """
@@ -75,29 +114,19 @@ class TestZcml(ContentTypesReportsLayerTest):
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
         test_context = TestReportContext()
+        second_context = TestSecondReportContext()
 
         # Get all subscribers that are registered to an IReport object
-        reports = component.subscribers((test_context,), IReport)
+        reports_test_context = component.subscribers((test_context,), IReport)
+        assert_that(reports_test_context, has_length(2))
+        self._test_for_test_report(reports_test_context[0])
+        self._test_for_another_report(reports_test_context[1])
 
-        # Be sure that the subscriber we ended up with matches the test registration in the
-        # sample ZCML
-        assert_that(reports, has_length(1))
-        uti = reports[0]
-        assert_that(uti, has_property("name", "TestReport"))
-        assert_that(uti, has_property("title", "Test Report"))
-        assert_that(uti, has_property("description", "TestDescription"))
-        assert_that(uti, has_property("interface_context", not_none()))
-        assert_that(uti, has_property("supported_types",
-                                      contains_inanyorder("pdf", "csv")))
-        assert_that(uti, has_property("permission", "TestPermission"))
+        reports_second_context = component.subscribers(
+            (second_context,), IReport)
+        assert_that(reports_second_context, has_length(1))
+        self._test_for_another_report(reports_second_context[0])
 
-        ut_reports = list(component.getAllUtilitiesRegisteredFor(IReport))
-        assert_that(ut_reports, has_length(1))
-        uti = ut_reports[0]
-        assert_that(uti, has_property("name", "TestReport"))
-        assert_that(uti, has_property("title", "Test Report"))
-        assert_that(uti, has_property("description", "TestDescription"))
-        assert_that(uti, has_property("interface_context", not_none()))
-        assert_that(uti, has_property("supported_types",
-                                      contains_inanyorder("pdf", "csv")))
-        assert_that(uti, has_property("permission", "TestPermission"))
+        both_context_reports = component.subscribers(
+            (test_context, second_context), IReport)
+        assert_that(both_context_reports, has_length(0))

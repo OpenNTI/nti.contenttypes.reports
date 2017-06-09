@@ -25,8 +25,10 @@ from nti.base._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
+from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.contenttypes.reports.reports import BaseReport
+from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
 
 from nti.schema.field import TextLine
 
@@ -39,15 +41,18 @@ class IRegisterReport(interface.Interface):
 
     name = TextLine(title=u"The name of the report",
                     required=True)
-    
+
     title = TextLine(title=u"The title for the report",
                      required=True)
 
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
-    interface_context = GlobalObject(title=u"The context within which the report operates",
-                                     required=True)
+    contexts = Tokens(title=u"The contexts for this report",
+                               value_type=GlobalObject(
+                                   title=u"The context within which the report operates"),
+                               unique=True,
+                               required=True)
 
     permission = TextLine(title=u"The permission level required to access this report",
                           required=True)
@@ -57,18 +62,21 @@ class IRegisterReport(interface.Interface):
                              unique=True,
                              required=True)
 
+    condition = GlobalObject(title=u"A function that must return true for this report to be decorated",
+                             required=False)
+
     registration_name = TextLine(title=u"optional registration name of new report",
                                  required=False)
-    
+
     report_class = GlobalObject(title=u"The type of report the factory should generate",
                                 required=False)
-    
+
     report_interface = GlobalObject(title=u"The interface the factory provides",
                                     required=False)
 
 
-def registerReport(_context, name, title, description, interface_context,
-                   permission, supported_types, registration_name=None,
+def registerReport(_context, name, title, description, contexts,
+                   permission, supported_types, condition=None, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
     Take the items from ZCML, turn it into a report object and register it as a
@@ -78,7 +86,12 @@ def registerReport(_context, name, title, description, interface_context,
     if registration_name is None:
         registration_name = name
 
+    if condition is None:
+        condition = BaseReportAvailablePredicate
+
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
+
+    contexts = tuple(contexts)
 
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
@@ -87,17 +100,19 @@ def registerReport(_context, name, title, description, interface_context,
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,
-                                interface_context=interface_context,)
+                                condition=condition,
+                                contexts=contexts,)
 
-    assert type(interface_context) is InterfaceClass, \
-           "Invalid interface"
+    assert (type(interface) is InterfaceClass for interface in contexts), \
+        "Invalid interface"
 
-    assert IReportContext in interface_context.__bases__, \
-           "Invalid report context interface"
+    assert (IReportContext in interface.__bases__ for interface in contexts), \
+        "Invalid report context interface"
 
     # Register the object as a subscriber
-    subscriber(_context, provides=report_interface,
-               factory=factory, for_=(interface_context,))
+    for interface in contexts:
+        subscriber(_context, provides=report_interface,
+                   factory=factory, for_=(interface,))
 
     # Also register as utility to fetch all
     utility(_context, provides=report_interface,
