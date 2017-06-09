@@ -11,15 +11,13 @@ logger = __import__('logging').getLogger(__name__)
 
 from zope import interface
 
-from zope.interface.interface import InterfaceClass
+from zope.configuration.fields import GlobalObject
 
 from nti.contenttypes.reports.schema import ValidInterface
 from nti.contenttypes.reports.schema import ValidPredicate
 
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
-
-from zope.configuration.fields import GlobalObject
 
 
 class IReportContext(interface.Interface):
@@ -76,11 +74,10 @@ class IReport(interface.Interface):
                            required=True)
 
     contexts = ListOrTuple(title=u"Contexts for this report",
-                                    value_type=ValidInterface(IReportContext,
-                                                              title=u"The context within which the report operates"),
-                                    unique=True,
-                                    required=True)
-
+                           value_type=ValidInterface(IReportContext,
+                                                     title=u"The context within which the report operates"),
+                           unique=True,
+                           required=True)
     contexts.setTaggedValue('_ext_excluded_out', True)
 
     permission = TextLine(title=u"The permission level required to access this report",

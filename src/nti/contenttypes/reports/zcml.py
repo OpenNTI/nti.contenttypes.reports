@@ -25,7 +25,6 @@ from nti.base._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
-from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.contenttypes.reports.reports import BaseReport
 from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
@@ -89,9 +88,8 @@ def registerReport(_context, name, title, description, contexts,
     if condition is None:
         condition = BaseReportAvailablePredicate
 
-    supported_types = tuple(set(text_(s) for s in supported_types or ()))
-
     contexts = tuple(contexts)
+    supported_types = tuple(set(text_(s) for s in supported_types or ()))
 
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
@@ -104,10 +102,10 @@ def registerReport(_context, name, title, description, contexts,
                                 contexts=contexts,)
 
     assert (type(interface) is InterfaceClass for interface in contexts), \
-        "Invalid interface"
+            "Invalid interface"
 
     assert (IReportContext in interface.__bases__ for interface in contexts), \
-        "Invalid report context interface"
+            "Invalid report context interface"
 
     # Register the object as a subscriber
     for interface in contexts:

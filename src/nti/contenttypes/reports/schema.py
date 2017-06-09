@@ -17,7 +17,7 @@ from zope.interface.interface import InterfaceClass
 
 from zope.schema import Field
 
-from zope.schema._field import _isdotted
+from zope.schema._field import _isdotted  # Private method
 
 from zope.schema.interfaces import WrongType
 from zope.schema.interfaces import IFromUnicode
@@ -35,7 +35,6 @@ class ValidInterface(Object):
     def __init__(self, schema, **kw):
         if type(schema) is not InterfaceClass:
             raise WrongType(schema, self._type, self.__name__)
-
         self.schema = schema
         Field.__init__(self, **kw)
 

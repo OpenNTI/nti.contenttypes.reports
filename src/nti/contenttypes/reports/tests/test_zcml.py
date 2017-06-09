@@ -22,12 +22,10 @@ from zope.configuration import xmlconfig
 from nti.contenttypes.reports.interfaces import IReport
 
 from nti.contenttypes.reports.reports import ReportContext
-from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
 
 from nti.contenttypes.reports.tests import ITestReportContext
 from nti.contenttypes.reports.tests import ITestSecondReportContext
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
-from nti.contenttypes.reports.tests import TestReportPredicate
 
 
 # Example ZCML file that would call the registerReport directive
@@ -122,11 +120,11 @@ class TestZcml(ContentTypesReportsLayerTest):
         self._test_for_test_report(reports_test_context[0])
         self._test_for_another_report(reports_test_context[1])
 
-        reports_second_context = component.subscribers(
-            (second_context,), IReport)
+        reports_second_context = component.subscribers((second_context,), 
+                                                       IReport)
         assert_that(reports_second_context, has_length(1))
         self._test_for_another_report(reports_second_context[0])
 
-        both_context_reports = component.subscribers(
-            (test_context, second_context), IReport)
+        both_context_reports = component.subscribers((test_context, second_context), 
+                                                     IReport)
         assert_that(both_context_reports, has_length(0))
