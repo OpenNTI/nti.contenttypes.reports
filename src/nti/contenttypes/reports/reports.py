@@ -42,7 +42,7 @@ class BaseReport(SchemaConfigured):
 
 
 @interface.implementer(IReportAvailablePredicate)
-class BaseReportAvailablePredicate():
+class BaseReportAvailablePredicate(SchemaConfigured):
     """
     Class that will be inherited from by custom
     report predicates. Takes care of some of the dirty
