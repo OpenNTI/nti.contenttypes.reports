@@ -27,7 +27,7 @@ from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 
 from nti.contenttypes.reports.reports import BaseReport
-from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
+from nti.contenttypes.reports.reports import DefaultReportAvailablePredicate
 
 from nti.schema.field import TextLine
 
@@ -86,7 +86,7 @@ def registerReport(_context, name, title, description, contexts,
         registration_name = name
 
     if condition is None:
-        condition = BaseReportAvailablePredicate
+        condition = DefaultReportAvailablePredicate
 
     contexts = tuple(contexts)
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
