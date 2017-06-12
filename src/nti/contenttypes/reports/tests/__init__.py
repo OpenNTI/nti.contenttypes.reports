@@ -42,10 +42,13 @@ class SharedConfiguringTestLayer(ZopeComponentLayer,
 
 import unittest
 
+from nti.testing.base import AbstractTestBase
+
 
 class ContentTypesReportsLayerTest(unittest.TestCase):
 
     layer = SharedConfiguringTestLayer
+    get_configuration_package = AbstractTestBase.get_configuration_package.__func__
 
 
 from nti.contenttypes.reports.interfaces import IReportContext
