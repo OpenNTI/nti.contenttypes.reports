@@ -85,8 +85,8 @@ def registerReport(_context, name, title, description, contexts,
     if registration_name is None:
         registration_name = name
 
-    if condition is None:
-        condition = DefaultReportLinkProvider
+    if link_provider is None:
+        link_provider = DefaultReportLinkProvider
 
     contexts = tuple(contexts)
     supported_types = tuple(set(text_(s) for s in supported_types or ()))

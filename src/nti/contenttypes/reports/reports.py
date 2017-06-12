@@ -50,8 +50,11 @@ class DefaultReportLinkProvider(SchemaConfigured):
     report link providers.
     """
     createDirectFieldProperties(IReportLinkProvider)
+    
+    def __init__(self, *args, **kwargs):
+        pass
 
-    def set_link_elements(self, report, context):
+    def set_link_elements(self, report, context, user):
         """
         Default link elements
         """
