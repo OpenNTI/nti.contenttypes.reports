@@ -88,11 +88,8 @@ class TestZcml(ContentTypesReportsLayerTest):
     def _test_for_another_report(self, report):
         assert_that(report, has_property("name", "AnotherTestReport"))
         assert_that(report, has_property("title", "Another Test Report"))
-        assert_that(
-            report,
-            has_property(
-                "description",
-                "Another Test Description"))
+        assert_that(report,
+                    has_property("description", "Another Test Description"))
         assert_that(report, has_property("contexts", has_length(2)))
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
@@ -120,11 +117,11 @@ class TestZcml(ContentTypesReportsLayerTest):
         self._test_for_test_report(reports_test_context[0])
         self._test_for_another_report(reports_test_context[1])
 
-        reports_second_context = component.subscribers((second_context,), 
+        reports_second_context = component.subscribers((second_context,),
                                                        IReport)
         assert_that(reports_second_context, has_length(1))
         self._test_for_another_report(reports_second_context[0])
 
-        both_context_reports = component.subscribers((test_context, second_context), 
+        both_context_reports = component.subscribers((test_context, second_context),
                                                      IReport)
         assert_that(both_context_reports, has_length(0))

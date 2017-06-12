@@ -10,8 +10,8 @@ __docformat__ = "restructuredtext en"
 from nti.contenttypes.reports.interfaces import IReportContext
 from nti.contenttypes.reports.interfaces import IReportLinkProvider
 
-from nti.contenttypes.reports.schema import ValidInterface
 from nti.contenttypes.reports.schema import ValidProvider
+from nti.contenttypes.reports.schema import ValidInterface
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
