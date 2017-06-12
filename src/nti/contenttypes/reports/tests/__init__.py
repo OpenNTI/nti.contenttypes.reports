@@ -14,7 +14,7 @@ import zope.testing.cleanup
 from nti.testing.layers import ZopeComponentLayer
 from nti.testing.layers import ConfiguringLayerMixin
 
-from nti.contenttypes.reports.reports import BaseReportAvailablePredicate
+from nti.contenttypes.reports.reports import DefaultReportLinkProvider
 
 
 class SharedConfiguringTestLayer(ZopeComponentLayer,
@@ -67,7 +67,7 @@ class ITestSecondReportContext(IReportContext):
     """
 
 
-class TestReportPredicate(BaseReportAvailablePredicate):
+class TestReportLinkProvider(DefaultReportLinkProvider):
     """
     Test predicate for if a report should be decorated
     """

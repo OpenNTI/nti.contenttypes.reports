@@ -5,6 +5,7 @@
 """
 
 from __future__ import print_function, absolute_import, division
+from __builtin__ import False
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -16,6 +17,7 @@ from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 from nti.contenttypes.reports.interfaces import IReportPredicate
 from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
+from nti.contenttypes.reports.interfaces import IReportLinkProvider
 
 from nti.schema.fieldproperty import createDirectFieldProperties
 
@@ -41,27 +43,21 @@ class BaseReport(SchemaConfigured):
         SchemaConfigured.__init__(self, **kwargs)
 
 
-@interface.implementer(IReportAvailablePredicate)
-class DefaultReportAvailablePredicate(SchemaConfigured):
+@interface.implementer(IReportLinkProvider)
+class DefaultReportLinkProvider(SchemaConfigured):
     """
     Class that will be inherited from by custom
-    report predicates. Takes care of some of the dirty
-    work.
+    report link providers.
     """
-    createDirectFieldProperties(IReportAvailablePredicate)
+    createDirectFieldProperties(IReportLinkProvider)
 
     def set_link_elements(self, report, context):
+        """
+        Default link elements
+        """
         self.context = context
         self.rel = "report-%s" % report.name
         self.elements = ("@@" + report.name,)
-
-    def evaluate(self, report, context, user):
-        """
-        Evaluate if this report should be decorated
-        onto the context
-        """
-        return True
-BaseReportAvailablePredicate = DefaultReportAvailablePredicate
 
 
 def evaluate_permission(report, context, user):
@@ -76,3 +72,14 @@ def evaluate_permission(report, context, user):
     if not predicates:
         return False
     return all((p.evaluate(report, context, user) for p in predicates))
+
+def evaluate_predicate(report, context, user):
+    """
+    Evaluate if in this context, this user should
+    be provided with a link to a report
+    """
+    predicates = list(component.subscribers((context,), IReportAvailablePredicate))
+    
+    if not predicates:
+        return False
+    return all(p.evaluate(report, context, user) for p in predicates)

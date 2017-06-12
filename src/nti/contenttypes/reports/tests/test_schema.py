@@ -8,10 +8,10 @@ __docformat__ = "restructuredtext en"
 # pylint: disable=W0212,R0904
 
 from nti.contenttypes.reports.interfaces import IReportContext
-from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
+from nti.contenttypes.reports.interfaces import IReportLinkProvider
 
 from nti.contenttypes.reports.schema import ValidInterface
-from nti.contenttypes.reports.schema import ValidPredicate
+from nti.contenttypes.reports.schema import ValidProvider
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
@@ -25,5 +25,5 @@ class TestSchema(ContentTypesReportsLayerTest):
         schema.fromUnicode(self.module + ".ITestReportContext")
 
     def test_valid_predicate(self):
-        schema = ValidPredicate(IReportAvailablePredicate)
-        schema.fromUnicode(self.module + ".TestReportPredicate")
+        schema = ValidProvider(IReportLinkProvider)
+        schema.fromUnicode(self.module + ".TestReportLinkProvider")
