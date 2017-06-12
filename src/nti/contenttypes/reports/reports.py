@@ -5,7 +5,6 @@
 """
 
 from __future__ import print_function, absolute_import, division
-from __builtin__ import False
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -16,8 +15,8 @@ from zope import interface
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 from nti.contenttypes.reports.interfaces import IReportPredicate
-from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 from nti.contenttypes.reports.interfaces import IReportLinkProvider
+from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.schema.fieldproperty import createDirectFieldProperties
 
@@ -50,11 +49,11 @@ class DefaultReportLinkProvider(SchemaConfigured):
     report link providers.
     """
     createDirectFieldProperties(IReportLinkProvider)
-    
+
     def __init__(self, *args, **kwargs):
         pass
 
-    def set_link_elements(self, report, context, user):
+    def set_link_elements(self, report, context, user=None):
         """
         Default link elements
         """
@@ -76,13 +75,14 @@ def evaluate_permission(report, context, user):
         return False
     return all((p.evaluate(report, context, user) for p in predicates))
 
+
 def evaluate_predicate(report, context, user):
     """
     Evaluate if in this context, this user should
     be provided with a link to a report
     """
-    predicates = list(component.subscribers((context,), IReportAvailablePredicate))
-    
+    predicates = list(component.subscribers((context,), 
+                                            IReportAvailablePredicate))
     if not predicates:
         return True
     return all(p.evaluate(report, context, user) for p in predicates)

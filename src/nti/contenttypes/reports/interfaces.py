@@ -13,8 +13,8 @@ from zope import interface
 
 from zope.configuration.fields import GlobalObject
 
-from nti.contenttypes.reports.schema import ValidInterface
 from nti.contenttypes.reports.schema import ValidProvider
+from nti.contenttypes.reports.schema import ValidInterface
 
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
@@ -44,6 +44,7 @@ class IReportAvailablePredicate(IReportPredicate):
     a context.
     """
 
+
 class IReportLinkProvider(interface.Interface):
     """
     Provides the necessary link decoration logic
@@ -57,10 +58,9 @@ class IReportLinkProvider(interface.Interface):
 
     elements = ListOrTuple(title=u"Elements in a link to a report",
                            unique=True,
-                           value_type=TextLine(
-                               title=u"Element in link"),
+                           value_type=TextLine(title=u"Element in link"),
                            required=True)
-    
+
     def set_link_elements(report, context, user):
         """
         Set the link elements
@@ -94,10 +94,11 @@ class IReport(interface.Interface):
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
                                   unique=True,
-                                  value_type=TextLine(title=u"A file type (csv,pdf,etc)"),
+                                  value_type=TextLine(
+                                      title=u"A file type (csv,pdf,etc)"),
                                   required=True)
 
     link_provider = ValidProvider(IReportLinkProvider,
-                               title=u"A condition for if a report should be decorated",
-                               required=False)
+                                  title=u"A condition for if a report should be decorated",
+                                  required=False)
     link_provider.setTaggedValue('_ext_excluded_out', True)
