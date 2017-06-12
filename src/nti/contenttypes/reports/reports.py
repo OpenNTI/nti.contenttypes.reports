@@ -51,7 +51,7 @@ class DefaultReportLinkProvider(SchemaConfigured):
     createDirectFieldProperties(IReportLinkProvider)
 
     def __init__(self, *args, **kwargs):
-        pass
+        SchemaConfigured.__init__(self, **kwargs)
 
     def set_link_elements(self, report, context, user=None):
         """
