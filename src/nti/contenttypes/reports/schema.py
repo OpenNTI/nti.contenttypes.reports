@@ -54,7 +54,7 @@ class ValidInterface(Object):
         return value
 
 
-class ValidPredicate(ValidInterface):
+class ValidProvider(ValidInterface):
 
     def _validate(self, value):
         if not self.schema.implementedBy(value):
