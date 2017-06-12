@@ -81,5 +81,5 @@ def evaluate_predicate(report, context, user):
     predicates = list(component.subscribers((context,), IReportAvailablePredicate))
     
     if not predicates:
-        return False
+        return True
     return all(p.evaluate(report, context, user) for p in predicates)
