@@ -34,7 +34,3 @@ class _ReportDecorator(object):
         external['contexts'] = {
             ITEMS: [x.__name__ for x in original.contexts or ()]
         }
-        if original.link_provider is not None:
-            external['link_provider'] = {
-                CLASS: original.link_provider.__name__
-            }

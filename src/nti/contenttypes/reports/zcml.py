@@ -27,7 +27,6 @@ from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext
 
 from nti.contenttypes.reports.reports import BaseReport
-from nti.contenttypes.reports.reports import DefaultReportLinkProvider
 
 from nti.schema.field import TextLine
 
@@ -61,9 +60,6 @@ class IRegisterReport(interface.Interface):
                              unique=True,
                              required=True)
 
-    link_provider = GlobalObject(title=u"A class that sets the correct link decoration elements.",
-                             required=False)
-
     registration_name = TextLine(title=u"optional registration name of new report",
                                  required=False)
 
@@ -75,7 +71,7 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, title, description, contexts,
-                   permission, supported_types, link_provider=None, registration_name=None,
+                   permission, supported_types, registration_name=None,
                    report_class=BaseReport, report_interface=IReport):
     """
     Take the items from ZCML, turn it into a report object and register it as a
@@ -84,9 +80,6 @@ def registerReport(_context, name, title, description, contexts,
 
     if registration_name is None:
         registration_name = name
-
-    if link_provider is None:
-        link_provider = DefaultReportLinkProvider
 
     contexts = tuple(contexts)
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
@@ -98,7 +91,6 @@ def registerReport(_context, name, title, description, contexts,
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,
-                                link_provider=link_provider,
                                 contexts=contexts,)
 
     assert (type(interface) is InterfaceClass for interface in contexts), \

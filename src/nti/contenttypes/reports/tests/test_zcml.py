@@ -53,8 +53,7 @@ HEAD_ZCML_STRING = u"""
                             contexts=".tests.ITestReportContext
                                       .tests.ITestSecondReportContext"
                             permission="TestPermission"
-                            supported_types="csv pdf"
-                            link_provider=".tests.TestReportLinkProvider" />
+                            supported_types="csv pdf"/>
     </configure>
 </configure>
 """
@@ -83,7 +82,6 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
         assert_that(report, has_property("permission", "TestPermission"))
-        assert_that(report, has_property("link_provider", not_none()))
 
     def _test_for_another_report(self, report):
         assert_that(report, has_property("name", "AnotherTestReport"))
@@ -94,7 +92,6 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
         assert_that(report, has_property("permission", "TestPermission"))
-        assert_that(report, has_property("link_provider", not_none()))
 
     def test_register_report(self):
         """
