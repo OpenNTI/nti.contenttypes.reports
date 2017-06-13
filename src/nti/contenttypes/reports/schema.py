@@ -52,10 +52,3 @@ class ValidInterface(Object):
         value = dottedname.resolve(value)
         self._validate(value)
         return value
-
-
-class ValidProvider(ValidInterface):
-
-    def _validate(self, value):
-        if not self.schema.implementedBy(value):
-            raise WrongType(value, self._type, self.__name__)
