@@ -20,7 +20,6 @@ from nti.externalization.interfaces import IExternalObjectDecorator
 
 from nti.externalization.singleton import SingletonDecorator
 
-CLASS = StandardExternalFields.CLASS
 ITEMS = StandardExternalFields.ITEMS
 
 
