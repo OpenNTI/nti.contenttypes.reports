@@ -7,8 +7,6 @@ __docformat__ = "restructuredtext en"
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
-from zope import interface
-
 import zope.testing.cleanup
 
 from nti.testing.layers import ZopeComponentLayer
@@ -50,7 +48,6 @@ class ContentTypesReportsLayerTest(unittest.TestCase):
 
 
 from nti.contenttypes.reports.interfaces import IReportContext
-from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 
 class ITestReportContext(IReportContext):
