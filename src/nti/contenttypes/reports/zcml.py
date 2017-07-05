@@ -21,7 +21,7 @@ from zope.configuration.fields import GlobalObject
 
 from zope.interface.interface import InterfaceClass
 
-from nti.base._compat import text_
+from nti.contenttypes.reports._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext

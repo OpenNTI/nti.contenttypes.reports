@@ -32,8 +32,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
@@ -45,8 +43,13 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
+        'nti.externalization',
+        'nti.schema',
         'zope.component',
+        'zope.configuration',
+        'zope.dottedname',
         'zope.interface',
+        'zope.schema',
         'zope.security',
     ],
     extras_require={
