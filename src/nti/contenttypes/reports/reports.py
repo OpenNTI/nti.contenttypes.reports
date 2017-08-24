@@ -37,7 +37,7 @@ class BaseReport(SchemaConfigured):
     """
     createDirectFieldProperties(IReport)
 
-    def __init__(self, *args, **kwargs):  # specify args
+    def __init__(self, *unused_args, **kwargs):  # specify args
         SchemaConfigured.__init__(self, **kwargs)
 
 
