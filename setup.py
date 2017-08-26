@@ -8,6 +8,7 @@ entry_points = {
 
 TESTS_REQUIRE = [
     'nti.testing',
+    'zope.dottedname',
     'zope.testrunner',
 ]
 
@@ -35,6 +36,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
+    url="https://github.com/NextThought/nti.contenttypes.reports",
     zip_safe=True,
     packages=find_packages('src'),
     package_dir={'': 'src'},
