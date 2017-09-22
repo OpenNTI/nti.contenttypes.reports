@@ -4,10 +4,9 @@
 .. $Id$
 """
 
-from __future__ import print_function, absolute_import, division
-__docformat__ = "restructuredtext en"
-
-logger = __import__('logging').getLogger(__name__)
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
 import functools
 
@@ -29,6 +28,8 @@ from nti.contenttypes.reports.interfaces import IReportContext
 from nti.contenttypes.reports.reports import BaseReport
 
 from nti.schema.field import TextLine
+
+logger = __import__('logging').getLogger(__name__)
 
 
 class IRegisterReport(interface.Interface):
