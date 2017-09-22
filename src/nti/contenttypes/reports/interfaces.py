@@ -4,10 +4,9 @@
 .. $Id: interfaces.py 111853 2017-05-01 22:57:24Z carlos.sanchez $
 """
 
-from __future__ import print_function, absolute_import, division
-__docformat__ = "restructuredtext en"
-
-logger = __import__('logging').getLogger(__name__)
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
 from zope import interface
 
