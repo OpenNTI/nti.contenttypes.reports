@@ -8,8 +8,6 @@ from __future__ import absolute_import
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
-import six
-
 import zope.testing.cleanup
 
 from nti.testing.layers import ZopeComponentLayer
