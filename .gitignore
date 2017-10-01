@@ -4,9 +4,13 @@
 /.pydevproject
 /.settings/
 
+*.DS_Store
+
 # Distribution / packaging
 build/
 dist/
 /.tox/
-/htmlcov/
-/.coverage
+
+.coverage
+htmlcov/
+docs/_build/
