@@ -61,8 +61,7 @@ def evaluate_predicate(report, context, user):
     Evaluate if in this context, this user should
     be provided with a link to a report
     """
-    predicates = list(component.subscribers((context,), 
-                                            IReportAvailablePredicate))
+    predicates = list(component.subscribers((context,), IReportAvailablePredicate))
     if not predicates:
         return True
     return all(p.evaluate(report, context, user) for p in predicates)
