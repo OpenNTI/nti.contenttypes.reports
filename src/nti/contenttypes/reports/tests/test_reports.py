@@ -14,12 +14,15 @@ from hamcrest import assert_that
 from zope import component
 from zope import interface
 
+from nti.contenttypes.reports.interfaces import IReport
+from nti.contenttypes.reports.interfaces import IReportPredicate
 from nti.contenttypes.reports.interfaces import IReportAvailablePredicate
 
 from nti.contenttypes.reports.reports import BaseReport
 from nti.contenttypes.reports.reports import ReportContext
 
 from nti.contenttypes.reports.reports import evaluate_predicate
+from nti.contenttypes.reports.reports import evaluate_permission
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
@@ -40,6 +43,20 @@ class ReportAvailablePredicate(object):
 
     def evaluate(self, *unused_args):
         return False
+
+
+@interface.implementer(IReportPredicate)
+class ReportPredicate(object):
+
+    def __init__(self, *args):
+        pass
+
+    def evaluate(self, *unused_args):
+        return True
+
+
+class IUser(interface.Interface):
+    pass
 
 
 class TestReports(ContentTypesReportsLayerTest):
@@ -65,3 +82,29 @@ class TestReports(ContentTypesReportsLayerTest):
         sm.unregisterSubscriptionAdapter(ReportAvailablePredicate,
                                          (ITestReportContext,),
                                          IReportAvailablePredicate)
+
+    def test_evaluate_permission(self):
+        report = BaseReport(name=u"TestBasic",
+                            title=u"Test Report",
+                            description=u"TestBasicDescription",
+                            contexts=(ITestReportContext,
+                                      ITestSecondReportContext),
+                            permission=u"TestPermission",
+                            supported_types=[u"csv", u"pdf"])
+        assert_that(evaluate_permission(report, None, None),
+                    is_(False))
+
+        @interface.implementer(IUser)
+        class User(object):
+            pass
+
+        sm = component.getGlobalSiteManager()
+        sm.registerSubscriptionAdapter(ReportPredicate,
+                                       (IReport, interface.Interface),
+                                       IReportPredicate)
+        assert_that(evaluate_permission(report, TestReportContext(), User()),
+                    is_(True))
+
+        sm.unregisterSubscriptionAdapter(ReportPredicate,
+                                         (IReport, interface.Interface),
+                                         IReportPredicate)
