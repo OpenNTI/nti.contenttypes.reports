@@ -20,6 +20,8 @@ from zope import interface
 from zope.configuration import config
 from zope.configuration import xmlconfig
 
+from zope.dottedname import resolve as dottedname
+
 from nti.contenttypes.reports.interfaces import IReport
 
 from nti.contenttypes.reports.reports import ReportContext
@@ -102,7 +104,8 @@ class TestZcml(ContentTypesReportsLayerTest):
         # Using the above ZCML string, set up the temporary configuration and run the string
         # through ZCML processor
         context = config.ConfigurationMachine()
-        context.package = self.get_configuration_package()
+        context.package = dottedname.resolve("nti.contenttypes.reports")
+
         xmlconfig.registerCommonDirectives(context)
         xmlconfig.string(HEAD_ZCML_STRING, context)
 
