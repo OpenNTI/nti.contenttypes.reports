@@ -8,6 +8,8 @@ from __future__ import absolute_import
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
+import six
+
 import zope.testing.cleanup
 
 from nti.testing.layers import ZopeComponentLayer
@@ -43,9 +45,7 @@ from nti.testing.base import AbstractTestBase
 
 
 class ContentTypesReportsLayerTest(unittest.TestCase):
-
     layer = SharedConfiguringTestLayer
-    get_configuration_package = AbstractTestBase.get_configuration_package.__func__
 
 
 from nti.contenttypes.reports.interfaces import IReportContext
