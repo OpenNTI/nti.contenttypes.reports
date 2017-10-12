@@ -59,3 +59,9 @@ class ITestSecondReportContext(IReportContext):
     """
     Test interface to test reports with multiple interface contexts
     """
+
+from zope import interface
+
+
+class ITest(interface.Interface):
+    pass
