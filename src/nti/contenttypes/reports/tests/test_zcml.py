@@ -46,6 +46,7 @@ HEAD_ZCML_STRING = u"""
     <configure>
         <rep:registerReport name="TestReport"
                             title="Test Report"
+                            rel="report-TestReport"
                             description="TestDescription"
                             contexts=".tests.ITestReportContext"
                             permission="TestPermission"
@@ -79,6 +80,7 @@ class TestZcml(ContentTypesReportsLayerTest):
 
     def _test_for_test_report(self, report):
         assert_that(report, has_property("name", "TestReport"))
+        assert_that(report, has_property("rel", "report-TestReport"))
         assert_that(report, has_property("title", "Test Report"))
         assert_that(report, has_property("description", "TestDescription"))
         assert_that(report, has_property("contexts", not_none()))
