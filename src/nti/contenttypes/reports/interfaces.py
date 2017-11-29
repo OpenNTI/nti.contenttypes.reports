@@ -56,6 +56,9 @@ class IReport(interface.Interface):
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
+    rel = TextLine(title=u"The href rel this report can be found on.",
+                   required=False)
+
     contexts = ListOrTuple(title=u"Contexts for this report",
                            value_type=ValidInterface(IReportContext,
                                                      title=u"The context within which the report operates"),
@@ -65,6 +68,7 @@ class IReport(interface.Interface):
 
     permission = TextLine(title=u"The permission level required to access this report",
                           required=True)
+    permission.setTaggedValue('_ext_excluded_out', True)
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
                                   unique=True,

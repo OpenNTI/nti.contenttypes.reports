@@ -47,6 +47,9 @@ class IRegisterReport(interface.Interface):
     description = TextLine(title=u"The client-visible description of the report.",
                            required=True)
 
+    rel = TextLine(title=u"The href rel this report can be found on.",
+                   required=False)
+
     contexts = Tokens(title=u"The contexts for this report",
                                value_type=GlobalObject(
                                    title=u"The context within which the report operates"),
@@ -73,7 +76,7 @@ class IRegisterReport(interface.Interface):
 
 def registerReport(_context, name, title, description, contexts,
                    permission, supported_types, registration_name=None,
-                   report_class=BaseReport, report_interface=IReport):
+                   report_class=BaseReport, report_interface=IReport, rel=None):
     """
     Take the items from ZCML, turn it into a report object and register it as a
     new utility in the current context
@@ -89,6 +92,7 @@ def registerReport(_context, name, title, description, contexts,
     factory = functools.partial(report_class,
                                 name=text_(name),
                                 title=text_(title),
+                                rel=text_(rel),
                                 permission=text_(permission),
                                 description=text_(description),
                                 supported_types=supported_types,

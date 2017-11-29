@@ -38,17 +38,17 @@ class TestExternal(ContentTypesReportsLayerTest):
         Test the externalization of BasicReport
         """
         # Create example object and make an external object
-        report = BaseReport(name=u"TestBasic", 
+        report = BaseReport(name=u"TestBasic",
                             title=u"Test Report",
                             description=u"TestBasicDescription",
                             contexts=(ITestReportContext,
-                                      ITestSecondReportContext), 
-                            permission=u"TestPermission", 
+                                      ITestSecondReportContext),
+                            permission=u"TestPermission",
                             supported_types=[u"csv", u"pdf"])
         ext_obj = to_external_object(report)
-        
+
         # Be sure that the external object has the right specs
-        assert_that(ext_obj, 
+        assert_that(ext_obj,
                     has_entries(CLASS, "BaseReport",
                                 "name", "TestBasic",
                                 "title", "Test Report",
@@ -56,5 +56,4 @@ class TestExternal(ContentTypesReportsLayerTest):
                                 "contexts", has_entry(ITEMS,
                                                     contains_inanyorder(ITestReportContext.__name__,
                                                                         ITestSecondReportContext.__name__)),
-                                "permission", "TestPermission",
                                 "supported_types", contains_inanyorder("csv", "pdf")))
