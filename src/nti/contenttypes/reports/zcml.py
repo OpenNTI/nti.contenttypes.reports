@@ -32,7 +32,7 @@ from nti.schema.field import TextLine
 logger = __import__('logging').getLogger(__name__)
 
 
-class IRegisterReport(interface.Interface):
+class IRegisterReport(interface.Interface):  # pylint: disable=inherit-non-class
     """
     Interface representing a registration of a new report, defining behavior of
     the various fields
@@ -51,10 +51,10 @@ class IRegisterReport(interface.Interface):
                    required=False)
 
     contexts = Tokens(title=u"The contexts for this report",
-                               value_type=GlobalObject(
-                                   title=u"The context within which the report operates"),
-                               unique=True,
-                               required=True)
+                      value_type=GlobalObject(
+                          title=u"The context within which the report operates"),
+                      unique=True,
+                      required=True)
 
     permission = TextLine(title=u"The permission level required to access this report",
                           required=True)
@@ -98,16 +98,16 @@ def registerReport(_context, name, title, description, contexts,
                                 supported_types=supported_types,
                                 contexts=contexts,)
 
-    assert (type(interface) is InterfaceClass for interface in contexts), \
-            "Invalid interface"
+    assert (type(provided) is InterfaceClass for provided in contexts), \
+           "Invalid interface"
 
-    assert (IReportContext in interface.__bases__ for interface in contexts), \
-            "Invalid report context interface"
+    assert (IReportContext in provided.__bases__ for provided in contexts), \
+           "Invalid report context interface"
 
     # Register the object as a subscriber
-    for interface in contexts:
+    for provided in contexts:
         subscriber(_context, provides=report_interface,
-                   factory=factory, for_=(interface,))
+                   factory=factory, for_=(provided,))
 
     # Also register as utility to fetch all
     utility(_context, provides=report_interface,

@@ -38,6 +38,7 @@ class BaseReport(SchemaConfigured):
     """
     createDirectFieldProperties(IReport)
 
+    # pylint: disable=unused-argument
     def __init__(self, *unused_args, **kwargs):  # specify args
         SchemaConfigured.__init__(self, **kwargs)
 

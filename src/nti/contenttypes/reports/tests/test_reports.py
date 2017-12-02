@@ -41,7 +41,7 @@ class ReportAvailablePredicate(object):
     def __init__(self, *args):
         pass
 
-    def evaluate(self, *unused_args):
+    def evaluate(self, *unused_args):  # pylint: disable=unused-argument
         return False
 
 
@@ -51,11 +51,11 @@ class ReportPredicate(object):
     def __init__(self, *args):
         pass
 
-    def evaluate(self, *unused_args):
+    def evaluate(self, *unused_args):  # pylint: disable=unused-argument
         return True
 
 
-class IUser(interface.Interface):
+class IUser(interface.Interface):  # pylint: disable=inherit-non-class
     pass
 
 
