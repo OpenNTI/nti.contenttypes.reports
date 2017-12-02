@@ -37,7 +37,7 @@ class ValidInterface(Object):
         if type(schema) is not InterfaceClass:
             raise WrongType(schema, self._type, self.__name__)
         self.schema = schema
-        Field.__init__(self, **kw)
+        Field.__init__(self, **kw)  # pylint: disable=non-parent-init-called
 
     def _validate(self, value):
         if not isinstance(value, self._type):

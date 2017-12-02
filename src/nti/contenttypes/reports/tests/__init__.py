@@ -60,8 +60,9 @@ class ITestSecondReportContext(IReportContext):
     Test interface to test reports with multiple interface contexts
     """
 
+
 from zope import interface
 
 
-class ITest(interface.Interface):
+class ITest(interface.Interface):  # pylint: disable=inherit-non-class
     pass
