@@ -13,8 +13,6 @@ from hamcrest import assert_that
 from hamcrest import has_property
 from hamcrest import contains_inanyorder
 
-from nose.tools import assert_raises
-
 from zope import component
 from zope import interface
 
@@ -45,8 +43,9 @@ HEAD_ZCML_STRING = u"""
     <include package="zope.security" file="meta.zcml" />
     <include package="zope.component" />
     <include package="zope.security" />
-    <include package="." file="meta.zcml"/>
     <include package="zope.vocabularyregistry" />
+
+    <include package="." file="meta.zcml"/>
 
     <configure>
         <rep:registerReport name="TestReport"
@@ -56,6 +55,7 @@ HEAD_ZCML_STRING = u"""
                             contexts=".tests.ITestReportContext"
                             permission="zope.View"
                             supported_types="csv pdf" />
+
         <rep:registerReport name="AnotherTestReport"
                             title="Another Test Report"
                             description="Another Test Description"
@@ -115,7 +115,7 @@ class TestZcml(ContentTypesReportsLayerTest):
 
         config_with_error = HEAD_ZCML_STRING.replace('zope.View',
                                                      'does_not_exist_permission')
-        with assert_raises(ConfigurationError):
+        with self.assertRaises(ConfigurationError):
             xmlconfig.registerCommonDirectives(context)
             xmlconfig.string(config_with_error, context)
 
