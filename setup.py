@@ -55,6 +55,7 @@ setup(
         'zope.interface',
         'zope.schema',
         'zope.security',
+        'zope.vocabularyregistry'
     ],
     extras_require={
         'test': TESTS_REQUIRE,

@@ -45,9 +45,9 @@ class BaseReport(SchemaConfigured):
 
 def evaluate_permission(report, context, user):
     """
-    Evaluate whether a user has permissions on this report.
-    Aggregate all permissions from all permissions
-    providers. All must be true to grant permission
+    Evaluate whether a user has permissions on this report. Aggregate all
+    permissions from all permissions providers. All must be true to grant
+    permission.
     """
     # Grab the permission providers
     predicates = list(component.subscribers((report, user), IReportPredicate))
@@ -59,8 +59,8 @@ def evaluate_permission(report, context, user):
 
 def evaluate_predicate(report, context, user):
     """
-    Evaluate if in this context, this user should
-    be provided with a link to a report
+    Evaluate if in this context, this user should  be provided with a link to a
+    report.
     """
     predicates = list(component.subscribers((context,), IReportAvailablePredicate))
     if not predicates:
