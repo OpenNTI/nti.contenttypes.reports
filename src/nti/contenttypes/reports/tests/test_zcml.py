@@ -13,11 +13,15 @@ from hamcrest import assert_that
 from hamcrest import has_property
 from hamcrest import contains_inanyorder
 
+from nose.tools import assert_raises
+
 from zope import component
 from zope import interface
 
 from zope.configuration import config
 from zope.configuration import xmlconfig
+
+from zope.configuration.exceptions import ConfigurationError
 
 from zope.dottedname import resolve as dottedname
 
@@ -40,7 +44,9 @@ HEAD_ZCML_STRING = u"""
     <include package="zope.component" file="meta.zcml" />
     <include package="zope.security" file="meta.zcml" />
     <include package="zope.component" />
+    <include package="zope.security" />
     <include package="." file="meta.zcml"/>
+    <include package="zope.vocabularyregistry" />
 
     <configure>
         <rep:registerReport name="TestReport"
@@ -48,14 +54,14 @@ HEAD_ZCML_STRING = u"""
                             rel="report-TestReport"
                             description="TestDescription"
                             contexts=".tests.ITestReportContext"
-                            permission="TestPermission"
+                            permission="zope.View"
                             supported_types="csv pdf" />
         <rep:registerReport name="AnotherTestReport"
                             title="Another Test Report"
                             description="Another Test Description"
                             contexts=".tests.ITestReportContext
                                       .tests.ITestSecondReportContext"
-                            permission="TestPermission"
+                            permission="zope.View"
                             supported_types="csv pdf"/>
     </configure>
 </configure>
@@ -85,7 +91,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("contexts", not_none()))
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
-        assert_that(report, has_property("permission", "TestPermission"))
+        assert_that(report, has_property("permission", "zope.View"))
 
     def _test_for_another_report(self, report):
         assert_that(report, has_property("name", "AnotherTestReport"))
@@ -95,17 +101,23 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("contexts", has_length(2)))
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
-        assert_that(report, has_property("permission", "TestPermission"))
+        assert_that(report, has_property("permission", "zope.View"))
 
     def test_register_report(self):
         """
         Responsible for testing that registering a report results in the proper utilities
         """
 
-        # Using the above ZCML string, set up the temporary configuration and run the string
-        # through ZCML processor
+        # Using the above ZCML string, set up the temporary configuration and
+        # run the string through ZCML processor
         context = config.ConfigurationMachine()
         context.package = dottedname.resolve("nti.contenttypes.reports")
+
+        config_with_error = HEAD_ZCML_STRING.replace('zope.View',
+                                                     'does_not_exist_permission')
+        with assert_raises(ConfigurationError):
+            xmlconfig.registerCommonDirectives(context)
+            xmlconfig.string(config_with_error, context)
 
         xmlconfig.registerCommonDirectives(context)
         xmlconfig.string(HEAD_ZCML_STRING, context)

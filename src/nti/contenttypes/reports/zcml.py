@@ -20,6 +20,8 @@ from zope.configuration.fields import GlobalObject
 
 from zope.interface.interface import InterfaceClass
 
+from zope.security.zcml import Permission
+
 from nti.contenttypes.reports._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport
@@ -32,7 +34,7 @@ from nti.schema.field import TextLine
 logger = __import__('logging').getLogger(__name__)
 
 
-class IRegisterReport(interface.Interface):  # pylint: disable=inherit-non-class
+class IRegisterReport(interface.Interface):
     """
     Interface representing a registration of a new report, defining behavior of
     the various fields
@@ -56,8 +58,8 @@ class IRegisterReport(interface.Interface):  # pylint: disable=inherit-non-class
                       unique=True,
                       required=True)
 
-    permission = TextLine(title=u"The permission level required to access this report",
-                          required=True)
+    permission = Permission(title=u"The permission level required to access this report",
+                            required=True)
 
     supported_types = Tokens(value_type=TextLine(title=u"A supported type for this report"),
                              title=u"The list of supported types for this report",

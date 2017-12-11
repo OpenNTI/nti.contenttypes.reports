@@ -14,6 +14,7 @@ from zope import interface
 
 from nti.contenttypes.reports.schema import ValidInterface
 
+from nti.schema.field import Choice
 from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
 
@@ -42,7 +43,6 @@ class IReportAvailablePredicate(IReportPredicate):
     a context.
     """
 
-
 class IReport(interface.Interface):
     """
     The base interface for a report object. This contains all the basic metadata
@@ -68,8 +68,9 @@ class IReport(interface.Interface):
                            required=True)
     contexts.setTaggedValue('_ext_excluded_out', True)
 
-    permission = TextLine(title=u"The permission level required to access this report",
-                          required=True)
+    permission = Choice(vocabulary='Permission Ids',
+                        title=u"The permission level required to access this report",
+                        required=True)
     permission.setTaggedValue('_ext_excluded_out', True)
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
