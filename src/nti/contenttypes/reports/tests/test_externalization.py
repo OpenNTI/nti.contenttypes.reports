@@ -42,7 +42,7 @@ class TestExternal(ContentTypesReportsLayerTest):
                             description=u"TestBasicDescription",
                             contexts=(ITestReportContext,
                                       ITestSecondReportContext),
-                            permission=u"TestPermission",
+                            permission=u"zope.View",
                             supported_types=[u"csv", u"pdf"])
         ext_obj = to_external_object(report)
 
