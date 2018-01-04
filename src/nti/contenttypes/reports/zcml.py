@@ -61,7 +61,7 @@ class IRegisterReport(interface.Interface):
                       required=True)
 
     permission = Permission(title=u"The permission level required to access this report",
-                            required=True)
+                            required=False)
 
     supported_types = Tokens(value_type=TextLine(title=u"A supported type for this report"),
                              title=u"The list of supported types for this report",
@@ -79,7 +79,7 @@ class IRegisterReport(interface.Interface):
 
 
 def registerReport(_context, name, title, description, contexts,
-                   permission, supported_types, registration_name=None,
+                   supported_types, registration_name=None, permission=None,
                    report_class=BaseReport, report_interface=IReport, rel=None):
     """
     Take the items from ZCML, turn it into a report object and register it as a
