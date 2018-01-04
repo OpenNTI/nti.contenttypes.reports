@@ -70,7 +70,7 @@ class IReport(interface.Interface):
 
     permission = Choice(vocabulary='Permission Ids',
                         title=u"The permission level required to access this report",
-                        required=True)
+                        required=False)
     permission.setTaggedValue('_ext_excluded_out', True)
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
