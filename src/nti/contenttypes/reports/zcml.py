@@ -11,6 +11,7 @@ from __future__ import absolute_import
 # pylint: disable=inherit-non-class
 
 import functools
+from six import text_type as text_
 
 from zope import interface
 
@@ -23,8 +24,6 @@ from zope.configuration.fields import GlobalObject
 from zope.interface.interface import InterfaceClass
 
 from zope.security.zcml import Permission
-
-from nti.contenttypes.reports._compat import text_
 
 from nti.contenttypes.reports.interfaces import IReport
 from nti.contenttypes.reports.interfaces import IReportContext

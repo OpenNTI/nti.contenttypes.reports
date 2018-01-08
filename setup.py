@@ -50,6 +50,7 @@ setup(
         'setuptools',
         'nti.externalization',
         'nti.schema',
+        'six',
         'zope.component',
         'zope.configuration',
         'zope.dottedname',
