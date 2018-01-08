@@ -85,19 +85,17 @@ def registerReport(_context, name, title, description, contexts,
     new utility in the current context
     """
 
-    if registration_name is None:
-        registration_name = name
-
     contexts = tuple(contexts)
+    rel = text_(rel) if rel else None
+    permission = text_(permission) if permission else None
     supported_types = tuple(set(text_(s) for s in supported_types or ()))
-    if permission:
-        permission = text_(permission)
+    registration_name = name if registration_name is None else registration_name
 
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
+                                rel=text_(rel),
                                 name=text_(name),
                                 title=text_(title),
-                                rel=text_(rel),
                                 permission=permission,
                                 description=text_(description),
                                 supported_types=supported_types,
