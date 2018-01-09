@@ -84,7 +84,6 @@ def registerReport(_context, name, title, description, contexts,
     Take the items from ZCML, turn it into a report object and register it as a
     new utility in the current context
     """
-
     contexts = tuple(contexts)
     rel = text_(rel) if rel else None
     permission = text_(permission) if permission else None
@@ -93,7 +92,7 @@ def registerReport(_context, name, title, description, contexts,
 
     # Create the Report object to be used as a subscriber
     factory = functools.partial(report_class,
-                                rel=text_(rel),
+                                rel=rel,
                                 name=text_(name),
                                 title=text_(title),
                                 permission=permission,
