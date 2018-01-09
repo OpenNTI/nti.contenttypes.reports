@@ -7,6 +7,7 @@ from __future__ import absolute_import
 
 # pylint: disable=protected-access,too-many-public-methods
 
+from hamcrest import none
 from hamcrest import not_none
 from hamcrest import has_length
 from hamcrest import assert_that
@@ -102,6 +103,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("supported_types",
                                          contains_inanyorder("pdf", "csv")))
         assert_that(report, has_property("permission", "zope.View"))
+        assert_that(report, has_property("rel", none()))
 
     def test_register_report(self):
         """
