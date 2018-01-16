@@ -27,7 +27,8 @@ ITEMS = StandardExternalFields.ITEMS
 class _ReportDecorator(Singleton):
 
     def decorateExternalObject(self, original, external):
-        if 'rel' not in external:
+        external_rel = external.get('rel', None)
+        if not external_rel:
             external['rel'] = original.rel or "report-%s" % original.name
         external['contexts'] = {
             ITEMS: [x.__name__ for x in original.contexts or ()]
