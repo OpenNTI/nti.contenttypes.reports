@@ -15,8 +15,8 @@ from zope import interface
 from nti.contenttypes.reports.schema import ValidInterface
 
 from nti.schema.field import Choice
-from nti.schema.field import TextLine
 from nti.schema.field import ListOrTuple
+from nti.schema.field import DecodingValidTextLine as TextLine
 
 
 class IReportContext(interface.Interface):
