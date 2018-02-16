@@ -2,11 +2,6 @@
  Reference
 ===========
 
-Compat
-======
-
-.. automodule:: nti.contenttypes.reports._compat
-
 Decorators
 ==========
 
@@ -30,4 +25,4 @@ Schema
 ZCML
 ====
 
-.. automodule:: nti.contenttypes.reports.zml
+.. automodule:: nti.contenttypes.reports.zcml
