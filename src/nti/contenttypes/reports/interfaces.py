@@ -14,6 +14,8 @@ from zope import interface
 
 from nti.contenttypes.reports.schema import ValidInterface
 
+from nti.mimetype.mimetype import rfc2047MimeTypeConstraint
+
 from nti.schema.field import Choice
 from nti.schema.field import ListOrTuple
 from nti.schema.field import DecodingValidTextLine as TextLine
@@ -75,5 +77,6 @@ class IReport(interface.Interface):
 
     supported_types = ListOrTuple(title=u"The supported file types that this report can be output to",
                                   unique=True,
-                                  value_type=TextLine(title=u"A file type (csv,pdf,etc)"),
+                                  value_type=TextLine(title=u"A mimetype supported by this report",
+                                                      constraint=rfc2047MimeTypeConstraint),
                                   required=True)
