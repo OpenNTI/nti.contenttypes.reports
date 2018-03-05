@@ -67,7 +67,7 @@ class TestReports(ContentTypesReportsLayerTest):
                             contexts=(ITestReportContext,
                                       ITestSecondReportContext),
                             permission=u"zope.View",
-                            supported_types=[u"csv", u"pdf"])
+                            supported_types=[u"text/csv", u"application/pdf"])
         assert_that(evaluate_predicate(report, None, None),
                     is_(True))
 
@@ -89,7 +89,7 @@ class TestReports(ContentTypesReportsLayerTest):
                             contexts=(ITestReportContext,
                                       ITestSecondReportContext),
                             permission=u"zope.View",
-                            supported_types=[u"csv", u"pdf"])
+                            supported_types=[u"text/csv", u"application/pdf"])
         assert_that(evaluate_permission(report, None, None),
                     is_(False))
 

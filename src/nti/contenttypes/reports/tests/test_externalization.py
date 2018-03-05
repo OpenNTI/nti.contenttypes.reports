@@ -43,7 +43,7 @@ class TestExternal(ContentTypesReportsLayerTest):
                             contexts=(ITestReportContext,
                                       ITestSecondReportContext),
                             permission=u"zope.View",
-                            supported_types=[u"csv", u"pdf"])
+                            supported_types=[u"text/csv", u"application/pdf"])
         ext_obj = to_external_object(report)
 
         # Be sure that the external object has the right specs
@@ -55,4 +55,4 @@ class TestExternal(ContentTypesReportsLayerTest):
                                 "contexts", has_entry(ITEMS,
                                                     contains_inanyorder(ITestReportContext.__name__,
                                                                         ITestSecondReportContext.__name__)),
-                                "supported_types", contains_inanyorder("csv", "pdf")))
+                                "supported_types", contains_inanyorder("text/csv", "application/pdf")))

@@ -30,6 +30,9 @@ from nti.contenttypes.reports.interfaces import IReportContext
 
 from nti.contenttypes.reports.reports import BaseReport
 
+from nti.mimetype import guess_type
+from nti.mimetype.mimetype import rfc2047MimeTypeConstraint
+
 from nti.schema.field import TextLine
 
 logger = __import__('logging').getLogger(__name__)
@@ -77,6 +80,21 @@ class IRegisterReport(interface.Interface):
                                     required=False)
 
 
+def _ensure_mimetype(report_type):
+    mime_type = report_type
+    if not rfc2047MimeTypeConstraint(report_type):
+        logger.warn('DEPRECATED Please update report registrations to use mimetypes')
+        fake_url = report_type if '.' in report_type else 'fake.'+report_type
+        mime_type = guess_type(fake_url)[0]
+        logger.warn('Guessed mimetype of %s for %s', mime_type, report_type)
+
+    if not mime_type:
+        raise ValueError('Unsupported report type %s', report_type)
+    
+    return mime_type
+        
+
+    
 def registerReport(_context, name, title, description, contexts,
                    supported_types, registration_name=None, permission=None,
                    report_class=BaseReport, report_interface=IReport, rel=None):
@@ -87,7 +105,7 @@ def registerReport(_context, name, title, description, contexts,
     contexts = tuple(contexts)
     rel = text_(rel) if rel else None
     permission = text_(permission) if permission else None
-    supported_types = tuple(set(text_(s) for s in supported_types or ()))
+    supported_types = tuple(set(text_(_ensure_mimetype(s)) for s in supported_types or ()))
     registration_name = name if registration_name is None else registration_name
 
     # Create the Report object to be used as a subscriber

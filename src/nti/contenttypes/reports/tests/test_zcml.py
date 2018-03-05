@@ -63,7 +63,7 @@ HEAD_ZCML_STRING = u"""
                             contexts=".tests.ITestReportContext
                                       .tests.ITestSecondReportContext"
                             permission="zope.View"
-                            supported_types="csv pdf"/>
+                            supported_types="text/csv application/pdf"/>
     </configure>
 </configure>
 """
@@ -91,7 +91,7 @@ class TestZcml(ContentTypesReportsLayerTest):
         assert_that(report, has_property("description", "TestDescription"))
         assert_that(report, has_property("contexts", not_none()))
         assert_that(report, has_property("supported_types",
-                                         contains_inanyorder("pdf", "csv")))
+                                         contains_inanyorder("application/pdf", "text/csv")))
         assert_that(report, has_property("permission", "zope.View"))
 
     def _test_for_another_report(self, report):
@@ -101,7 +101,7 @@ class TestZcml(ContentTypesReportsLayerTest):
                     has_property("description", "Another Test Description"))
         assert_that(report, has_property("contexts", has_length(2)))
         assert_that(report, has_property("supported_types",
-                                         contains_inanyorder("pdf", "csv")))
+                                         contains_inanyorder("application/pdf", "text/csv")))
         assert_that(report, has_property("permission", "zope.View"))
         assert_that(report, has_property("rel", none()))
 
