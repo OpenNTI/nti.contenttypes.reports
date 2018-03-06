@@ -49,6 +49,7 @@ setup(
     install_requires=[
         'setuptools',
         'nti.externalization',
+        'nti.mimetype',
         'nti.schema',
         'six',
         'zope.component',
