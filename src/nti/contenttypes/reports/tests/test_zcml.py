@@ -48,23 +48,22 @@ HEAD_ZCML_STRING = u"""
 
     <include package="." file="meta.zcml"/>
 
-    <configure>
-        <rep:registerReport name="TestReport"
-                            title="Test Report"
-                            rel="report-TestReport"
-                            description="TestDescription"
-                            contexts=".tests.ITestReportContext"
-                            permission="zope.View"
-                            supported_types="csv pdf" />
+    <rep:registerReport name="TestReport"
+                        title="Test Report"
+                        rel="report-TestReport"
+                        description="TestDescription"
+                        contexts=".tests.ITestReportContext"
+                        permission="zope.View"
+                        supported_types="csv pdf" />
 
-        <rep:registerReport name="AnotherTestReport"
-                            title="Another Test Report"
-                            description="Another Test Description"
-                            contexts=".tests.ITestReportContext
-                                      .tests.ITestSecondReportContext"
-                            permission="zope.View"
-                            supported_types="text/csv application/pdf"/>
-    </configure>
+    <rep:registerReport name="AnotherTestReport"
+                        title="Another Test Report"
+                        description="Another Test Description"
+                        contexts=".tests.ITestReportContext
+                                  .tests.ITestSecondReportContext"
+                        permission="zope.View"
+                        supported_types="text/csv application/pdf"/>
+
 </configure>
 """
 

@@ -31,7 +31,7 @@ from nti.contenttypes.reports.interfaces import IReportContext
 
 from nti.contenttypes.reports.reports import BaseReport
 
-from nti.contenttypes.reports.schema import rfc2047MimeTypeConstraint
+from nti.mimetype.schema import rfc2047MimeTypeConstraint
 
 from nti.schema.field import TextLine
 
