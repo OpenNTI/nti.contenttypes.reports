@@ -13,8 +13,7 @@ from __future__ import absolute_import
 from zope import interface
 
 from nti.contenttypes.reports.schema import ValidInterface
-
-from nti.mimetype.mimetype import rfc2047MimeTypeConstraint
+from nti.contenttypes.reports.schema import rfc2047MimeTypeConstraint
 
 from nti.schema.field import Choice
 from nti.schema.field import ListOrTuple
@@ -44,6 +43,7 @@ class IReportAvailablePredicate(IReportPredicate):
     Evaluate whether a report should be decorated onto
     a context.
     """
+
 
 class IReport(interface.Interface):
     """
