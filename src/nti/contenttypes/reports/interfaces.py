@@ -65,8 +65,7 @@ class IReport(interface.Interface):
                    required=False)
 
     contexts = ListOrTuple(title=u"Contexts for this report",
-                           value_type=ValidInterface(IReportContext,
-                                                     title=u"The context within which the report operates"),
+                           value_type=ValidInterface(title=u"The context within which the report operates"),
                            unique=True,
                            required=True)
     contexts.setTaggedValue('_ext_excluded_out', True)

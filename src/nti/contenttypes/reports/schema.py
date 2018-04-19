@@ -33,8 +33,8 @@ class ValidInterface(Object):
 
     _type = InterfaceClass
 
-    def __init__(self, schema, **kw):
-        if type(schema) is not InterfaceClass:
+    def __init__(self, schema=None, **kw):
+        if schema and type(schema) is not InterfaceClass:
             raise WrongType(schema, self._type, self.__name__)
         self.schema = schema
         Field.__init__(self, **kw)  # pylint: disable=non-parent-init-called
@@ -43,7 +43,7 @@ class ValidInterface(Object):
         if not isinstance(value, self._type):
             raise WrongType(value, self._type, self.__name__)
 
-        if self.schema not in value.__bases__:
+        if self.schema and self.schema not in value.__bases__:
             raise SchemaNotProvided
 
     def fromUnicode(self, value):
