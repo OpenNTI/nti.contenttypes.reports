@@ -7,6 +7,8 @@ from __future__ import absolute_import
 
 # pylint: disable=protected-access,too-many-public-methods
 
+from zope.interface import Interface
+
 from zope.schema.interfaces import WrongType
 from zope.schema.interfaces import InvalidDottedName
 from zope.schema.interfaces import SchemaNotProvided
@@ -17,6 +19,8 @@ from nti.contenttypes.reports.schema import ValidInterface
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
+class IBasicInterface(Interface):
+    pass
 
 class TestSchema(ContentTypesReportsLayerTest):
 
@@ -37,3 +41,7 @@ class TestSchema(ContentTypesReportsLayerTest):
 
         with self.assertRaises(InvalidDottedName):
             schema.fromUnicode("1234")
+
+    def test_any_interface(self):
+        schema = ValidInterface()
+        schema.fromUnicode(self.module + ".test_schema.IBasicInterface")
