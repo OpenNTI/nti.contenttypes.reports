@@ -80,3 +80,14 @@ class IReport(interface.Interface):
                                   value_type=TextLine(title=u"A mimetype supported by this report",
                                                       constraint=rfc2047MimeTypeConstraint),
                                   required=True)
+    
+    
+class IReportFilter(interface.Interface):
+    """
+    An interface that specifies whether reports should be excluded.
+    """
+    
+    def should_exclude_report(report):
+        """
+        Returns whether the specified report should be excluded.
+        """
