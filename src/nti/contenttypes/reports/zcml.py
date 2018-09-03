@@ -12,6 +12,7 @@ from __future__ import absolute_import
 
 import functools
 import mimetypes
+
 from six import text_type as text_
 
 from zope import interface
