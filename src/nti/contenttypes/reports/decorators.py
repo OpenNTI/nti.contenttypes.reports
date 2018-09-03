@@ -13,13 +13,14 @@ from zope import interface
 
 from nti.contenttypes.reports.interfaces import IReport
 
-from nti.externalization.externalization import StandardExternalFields
-
+from nti.externalization.interfaces import StandardExternalFields
 from nti.externalization.interfaces import IExternalObjectDecorator
 
 from nti.externalization.singleton import Singleton
 
 ITEMS = StandardExternalFields.ITEMS
+
+logger = __import__('logging').getLogger(__name__)
 
 
 @component.adapter(IReport)
