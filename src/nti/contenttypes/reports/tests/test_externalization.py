@@ -15,7 +15,8 @@ from hamcrest import contains_inanyorder
 from nti.contenttypes.reports.reports import BaseReport
 
 from nti.externalization.externalization import to_external_object
-from nti.externalization.externalization import StandardExternalFields
+
+from nti.externalization.interfaces import StandardExternalFields
 
 from nti.contenttypes.reports.tests import ContentTypesReportsLayerTest
 
