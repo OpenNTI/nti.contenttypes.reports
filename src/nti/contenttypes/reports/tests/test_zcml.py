@@ -54,7 +54,7 @@ HEAD_ZCML_STRING = u"""
                         description="TestDescription"
                         contexts=".tests.ITestReportContext"
                         permission="zope.View"
-                        supported_types="csv pdf" />
+                        supported_types="text/csv application/pdf" />
 
     <rep:registerReport name="AnotherTestReport"
                         title="Another Test Report"
